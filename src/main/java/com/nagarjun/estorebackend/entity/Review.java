@@ -3,7 +3,6 @@ package com.nagarjun.estorebackend.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import lombok.*;
 
 @AllArgsConstructor
@@ -22,6 +21,5 @@ public class Review {
 
     @NonNull
     private String rating;
-
-    
+   
 }
