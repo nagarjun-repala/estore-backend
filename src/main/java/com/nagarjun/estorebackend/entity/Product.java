@@ -1,18 +1,20 @@
 package com.nagarjun.estorebackend.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
+import javax.persistence.Table;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -20,16 +22,15 @@ public class Product {
     private Long id;
 
     @NonNull
+    @Column(nullable = false)
     private String name;
 
     @NonNull
+    @Column(nullable = false)
     private String description;
 
     @NonNull
+    @Column(nullable = false)
     private Float price;
-
-    private List<Review> reviews;
-
-
-    
+   
 }
