@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
@@ -30,7 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-
+        
+        user.setCreatedOn(LocalDate.now());
         return userRepository.save(user);
     }
 
