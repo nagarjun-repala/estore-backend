@@ -16,10 +16,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User getUser(Long id) {
+    public User getUser(Long userId) {
 
-        Optional<User> user = userRepository.findById(id);
-        return unwrapUser(user, id);
+        Optional<User> userEntity = userRepository.findById(userId);
+        return unwrapUser(userEntity, userId);
     }
 
     @Override
