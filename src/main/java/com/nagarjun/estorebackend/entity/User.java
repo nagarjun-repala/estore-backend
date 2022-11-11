@@ -1,6 +1,8 @@
 package com.nagarjun.estorebackend.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +45,6 @@ public class User {
 
     @NonNull
     @Column(name = "created_on", nullable = false)
-    private LocalDate createdOn;
+    private LocalDateTime createdOn;
     
 }
