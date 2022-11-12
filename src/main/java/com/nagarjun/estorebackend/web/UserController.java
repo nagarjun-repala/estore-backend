@@ -21,9 +21,9 @@ public class UserController {
     UserService userService;
     
     @GetMapping("/{id}")
-    public ResponseEntity<HttpStatus> findById(@PathVariable Long id) {
+    public ResponseEntity<User> findById(@PathVariable Long id) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
     
     @PostMapping("/register")
