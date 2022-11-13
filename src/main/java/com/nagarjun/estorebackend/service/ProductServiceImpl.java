@@ -1,13 +1,13 @@
 package com.nagarjun.estorebackend.service;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
 import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.util.ReflectionUtils;
 import com.nagarjun.estorebackend.Repository.ProductRepository;
 import com.nagarjun.estorebackend.entity.Product;
 
@@ -45,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
         unwrappedProduct.setDescription(product.getDescription());
         unwrappedProduct.setName(product.getName());
         unwrappedProduct.setPrice(product.getPrice());
-
         return productRepository.save(unwrappedProduct);
 
     }
@@ -67,6 +66,21 @@ public class ProductServiceImpl implements ProductService {
         if(entity.isPresent()) return entity.get();
         else throw new EntityNotFoundException();
 
+    }
+
+    @Override
+    public Product partialUpdateProduct(Long productId, Map<Object, Object> fields) {
+        Optional <Product> getProduct = productRepository.findById(productId);
+        Product unwrappedProduct = unwrapProduct(getProduct, productId);
+        fields.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(Product.class, (String) key);
+            if(field == null){
+                throw new EntityNotFoundException();
+            }
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, unwrappedProduct, value);
+        } );
+        return productRepository.save(unwrappedProduct);
     }
     
 }

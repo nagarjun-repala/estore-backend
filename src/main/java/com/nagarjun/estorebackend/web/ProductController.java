@@ -5,11 +5,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.service.ProductService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,27 +33,33 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+
         return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping("/{productId}")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable Long productId) {
+
         return new ResponseEntity<>(productService.updateProduct(productId, product), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<Product> partialUpdateProduct(@RequestBody Map<Object, Object> fields, @PathVariable Long productId) {
+
+        return new ResponseEntity<>(productService.partialUpdateProduct(productId, fields), HttpStatus.OK);
     }
 
     @DeleteMapping("/{productId}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long productId) {
 
         productService.deleteProduct(productId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);     
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getProducts() {
 
         return new ResponseEntity<>(productService.getProducts(), HttpStatus.OK);
-
     }
 
 }
