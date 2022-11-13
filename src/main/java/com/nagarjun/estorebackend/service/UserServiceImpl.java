@@ -19,9 +19,8 @@ public class UserServiceImpl implements UserService {
     public User getUser(Long userId) {
 
         Optional<User> userEntity = userRepository.findById(userId);
-        User unwrappedUser = unwrapUser(userEntity, userId);
-        unwrappedUser.setPassword("null");
-        return unwrappedUser;
+        return unwrapUser(userEntity, userId);
+
     }
 
     @Override
