@@ -1,6 +1,7 @@
 package com.nagarjun.estorebackend.service;
 
 import java.util.List;
+import java.util.Map;
 import com.nagarjun.estorebackend.entity.Product;
 
 public interface ProductService {
@@ -11,5 +12,6 @@ public interface ProductService {
     Product updateProduct(Long productId, Product product);
     Product addProductToUser(Long userId, Long productId);
     List<Product> getProducts();
+    Product partialUpdateProduct(Long productId, Map<Object, Object> fields);
     
 }
