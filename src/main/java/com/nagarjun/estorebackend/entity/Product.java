@@ -31,6 +31,6 @@ public class Product {
 
     @NonNull
     @Column(nullable = false)
-    private Float price;
+    private Integer price;
    
 }
