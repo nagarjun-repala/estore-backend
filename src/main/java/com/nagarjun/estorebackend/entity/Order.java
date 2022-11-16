@@ -1,6 +1,6 @@
 package com.nagarjun.estorebackend.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +33,7 @@ public class Order {
 
     @NonNull
     @Column(name = "created_on", nullable = false)
-    private Date createdOn;
+    private LocalDateTime createdOn;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
