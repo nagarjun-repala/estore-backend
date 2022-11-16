@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ReviewController {
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @GetMapping("/{reviewId}")
     public ResponseEntity<Review> getReview(@PathVariable Long reviewId) {

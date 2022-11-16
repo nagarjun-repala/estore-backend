@@ -3,13 +3,16 @@ package com.nagarjun.estorebackend.service;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.nagarjun.estorebackend.Repository.ReviewRepository;
 import com.nagarjun.estorebackend.entity.Review;
 
+@Service
 public class ReviewServiceImpl implements ReviewService{
 
     @Autowired
-    ReviewRepository reviewRepository;
+    private ReviewRepository reviewRepository;
 
     @Override
     public Review getReview(Long reviewId) {
@@ -54,6 +57,4 @@ public class ReviewServiceImpl implements ReviewService{
 
     }
 
-
-    
 }
