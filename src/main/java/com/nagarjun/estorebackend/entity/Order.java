@@ -27,6 +27,10 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
     @NonNull
     @Column(name = "created_on", nullable = false)
     private Date createdOn;

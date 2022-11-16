@@ -1,10 +1,13 @@
 package com.nagarjun.estorebackend.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.*;
 
@@ -32,5 +35,8 @@ public class Product {
     @NonNull
     @Column(nullable = false)
     private Integer price;
+
+    @OneToMany(mappedBy = "product")
+    private List<Order> orders;
    
 }
