@@ -55,6 +55,7 @@ public class User {
     private LocalDateTime createdOn;
 
     @OneToMany(mappedBy = "users")
+    @Column
     private List<Order> orders;
     
 }

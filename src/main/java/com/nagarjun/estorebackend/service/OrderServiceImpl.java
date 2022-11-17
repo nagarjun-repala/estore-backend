@@ -58,9 +58,19 @@ public class OrderServiceImpl implements OrderService{
         return (List<Order>) orderRepository.findAll();
     }
 
+    @Override
+    public Order getOrder(Long userId, Long productId) {
+        
+        Optional<Order> order = orderRepository.findByUserIdAndProductId(userId, productId);
+
+        return unwrappOrder(order, userId);
+    }    
+
     static Order unwrappOrder(Optional<Order> orderEntity, Long orderId) {
         if (orderEntity.isPresent()) return orderEntity.get();
         else throw new EntityNotFoundException();
     }
+
+
     
 }

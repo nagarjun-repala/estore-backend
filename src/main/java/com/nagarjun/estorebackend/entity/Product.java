@@ -35,8 +35,5 @@ public class Product {
     @NonNull
     @Column(nullable = false)
     private Integer price;
-
-    @OneToMany(mappedBy = "product")
-    private List<Order> orders;
    
 }

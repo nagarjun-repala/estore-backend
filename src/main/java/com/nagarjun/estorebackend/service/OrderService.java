@@ -7,6 +7,7 @@ import com.nagarjun.estorebackend.entity.Order;
 public interface OrderService {
 
     Order getOrder(Long orderId);
+    Order getOrder(Long userId, Long productId);
     Order createOrder(Order order);
     Order updateOrder(Long orderId, Order order);
     void deleteOrder(Long orderId);

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/user/product/order")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired
@@ -29,7 +29,13 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
     }
 
-    @PostMapping
+    @GetMapping("/user/{userId}/product/{productId}")
+    public ResponseEntity<Order> findOrderByUserId(@PathVariable Long userId, @PathVariable Long productId) {
+
+        return new ResponseEntity<>(orderService.getOrder(userId, productId), HttpStatus.OK);
+    }    
+
+    @PostMapping("/user/{userId}/product/{productId}")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
 
         return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
