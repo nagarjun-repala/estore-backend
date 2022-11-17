@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order getOrder(Long userId, Long productId) {
         
-        Optional<Order> order = orderRepository.findByUserIdAndProductId(userId, productId);
+        Optional<Order> order = orderRepository.findByUsersIdAndProductId(userId, productId);
 
         return unwrappOrder(order, userId);
     }    
