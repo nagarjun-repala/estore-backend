@@ -36,9 +36,9 @@ public class OrderController {
     }    
 
     @PostMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @RequestBody Order order) {
 
-        return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.createOrder(order, userId, productId), HttpStatus.CREATED);
     }
 
 

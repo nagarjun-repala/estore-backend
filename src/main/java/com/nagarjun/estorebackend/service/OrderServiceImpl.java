@@ -7,7 +7,11 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.Repository.OrderRepository;
+import com.nagarjun.estorebackend.Repository.ProductRepository;
+import com.nagarjun.estorebackend.Repository.UserRepository;
 import com.nagarjun.estorebackend.entity.Order;
+import com.nagarjun.estorebackend.entity.Product;
+import com.nagarjun.estorebackend.entity.User;
 
 
 @Service
@@ -16,6 +20,12 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Order getOrder(Long orderId) {
         
@@ -23,11 +33,18 @@ public class OrderServiceImpl implements OrderService{
         return unwrappOrder(orderEntity, orderId);
     }
 
-    @Override
-    public Order createOrder(Order order) {
 
+    @Override
+    public Order createOrder(Order order, Long userId, Long productId) {
+
+        User user = userRepository.findById(userId).get();
+        Product product = productRepository.findById(productId).get();
         order.setCreatedOn(LocalDateTime.now());
+        order.setProduct(product);
+        order.setUsers(user);
         return orderRepository.save(order);
+        
+
     }
 
     @Override
