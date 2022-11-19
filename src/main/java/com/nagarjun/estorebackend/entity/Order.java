@@ -38,6 +38,10 @@ public class Order {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
+    @NonNull
+    @Column
+    private Integer quantity;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore

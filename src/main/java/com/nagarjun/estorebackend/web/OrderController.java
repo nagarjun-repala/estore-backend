@@ -26,14 +26,20 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<Order> findOrderById(@PathVariable Long orderId) {
 
-        return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrderById(orderId), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<Order> findOrderByUserId(@PathVariable Long userId, @PathVariable Long productId) {
+    public ResponseEntity<Order> findOrderByUserIdAndProductId(@PathVariable Long userId, @PathVariable Long productId) {
 
-        return new ResponseEntity<>(orderService.getOrder(userId, productId), HttpStatus.OK);
-    }    
+        return new ResponseEntity<>(orderService.getOrderByUserIdAndProductId(userId, productId), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Order> findOrderByUserId(@PathVariable Long userId) {
+
+        return new ResponseEntity<>(orderService.getOrderById(userId), HttpStatus.OK);
+    }       
 
     @PostMapping("/user/{userId}/product/{productId}")
     public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @RequestBody Order order) {

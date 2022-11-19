@@ -1,4 +1,4 @@
-package com.nagarjun.estorebackend.Repository;
+package com.nagarjun.estorebackend.repository;
 
 import java.util.Optional;
 

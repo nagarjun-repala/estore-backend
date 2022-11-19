@@ -6,12 +6,13 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nagarjun.estorebackend.Repository.OrderRepository;
-import com.nagarjun.estorebackend.Repository.ProductRepository;
-import com.nagarjun.estorebackend.Repository.UserRepository;
+
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.repository.OrderRepository;
+import com.nagarjun.estorebackend.repository.ProductRepository;
+import com.nagarjun.estorebackend.repository.UserRepository;
 
 
 @Service
@@ -27,24 +28,23 @@ public class OrderServiceImpl implements OrderService{
     private UserRepository userRepository;
 
     @Override
-    public Order getOrder(Long orderId) {
+    public Order getOrderById(Long orderId) {
         
         Optional<Order> orderEntity = orderRepository.findById(orderId);
         return unwrappOrder(orderEntity, orderId);
     }
-
 
     @Override
     public Order createOrder(Order order, Long userId, Long productId) {
 
         User user = userRepository.findById(userId).get();
         Product product = productRepository.findById(productId).get();
+        Integer quantity = order.getQuantity();
         order.setCreatedOn(LocalDateTime.now());
         order.setProduct(product);
         order.setUsers(user);
+        order.setQuantity(quantity);
         return orderRepository.save(order);
-        
-
     }
 
     @Override
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order getOrder(Long userId, Long productId) {
+    public Order getOrderByUserIdAndProductId(Long userId, Long productId) {
         
         Optional<Order> order = orderRepository.findByUsersIdAndProductId(userId, productId);
 

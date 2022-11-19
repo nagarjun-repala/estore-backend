@@ -5,8 +5,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nagarjun.estorebackend.Repository.ReviewRepository;
 import com.nagarjun.estorebackend.entity.Review;
+import com.nagarjun.estorebackend.repository.ReviewRepository;
 
 @Service
 public class ReviewServiceImpl implements ReviewService{

@@ -8,8 +8,9 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-import com.nagarjun.estorebackend.Repository.ProductRepository;
+
 import com.nagarjun.estorebackend.entity.Product;
+import com.nagarjun.estorebackend.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
