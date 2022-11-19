@@ -10,7 +10,6 @@ public interface ProductService {
     Product createProduct(Product product);
     void deleteProduct(Long productId);
     Product updateProduct(Long productId, Product product);
-    Product addProductToUser(Long userId, Long productId);
     List<Product> getProducts();
     Product partialUpdateProduct(Long productId, Map<Object, Object> fields);
     

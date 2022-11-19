@@ -56,12 +56,6 @@ public class ProductServiceImpl implements ProductService {
         return (List<Product>) productRepository.findAll();
     }
 
-    @Override
-    public Product addProductToUser(Long userId, Long productId) {
-
-        return new Product();
-    }
-
     static Product unwrapProduct(Optional<Product> entity, Long id) {
 
         if(entity.isPresent()) return entity.get();
