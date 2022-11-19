@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -45,6 +46,11 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @RequestBody Order order) {
 
         return new ResponseEntity<>(orderService.createOrder(order, userId, productId), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
+        return new ResponseEntity<>(orderService.updateOrder(orderId, order), HttpStatus.OK);
     }
 
 

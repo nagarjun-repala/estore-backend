@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
@@ -40,7 +39,9 @@ public class OrderServiceImpl implements OrderService{
         User user = userRepository.findById(userId).get();
         Product product = productRepository.findById(productId).get();
         Integer quantity = order.getQuantity();
-        order.setCreatedOn(LocalDateTime.now());
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        order.setCreatedOn(currentDateTime);
+        order.setUpdatedOn(currentDateTime);
         order.setProduct(product);
         order.setUsers(user);
         order.setQuantity(quantity);
@@ -51,10 +52,11 @@ public class OrderServiceImpl implements OrderService{
     public Order updateOrder(Long orderId, Order order) {
 
         Optional<Order> orderEntity = orderRepository.findById(orderId);
-
         Order unwrappedOrder = unwrappOrder(orderEntity, orderId);
-
-        return null;
+        unwrappedOrder.setUpdatedOn(LocalDateTime.now());
+        unwrappedOrder.setQuantity(order.getQuantity());
+        return unwrappedOrder;
+        
     }
 
     @Override

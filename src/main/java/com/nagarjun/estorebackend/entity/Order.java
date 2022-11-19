@@ -42,6 +42,10 @@ public class Order {
     @Column
     private Integer quantity;
 
+    @NonNull
+    @Column(name = "updated_on", nullable = false)
+    private LocalDateTime updatedOn;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
