@@ -54,8 +54,6 @@ public class OrderServiceImpl implements OrderService{
 
         Order unwrappedOrder = unwrappOrder(orderEntity, orderId);
 
-        // unwrappedOrder.set
-
         return null;
     }
 
@@ -83,11 +81,17 @@ public class OrderServiceImpl implements OrderService{
         return unwrappOrder(order, userId);
     }    
 
+    @Override
+    public Order getOrderByUserId(Long userId) {
+        
+        Optional<Order> order = orderRepository.findByUsersId(userId);
+
+        return unwrappOrder(order, userId);
+    }       
+
     static Order unwrappOrder(Optional<Order> orderEntity, Long orderId) {
         if (orderEntity.isPresent()) return orderEntity.get();
         else throw new EntityNotFoundException();
     }
 
-
-    
 }
