@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.entity.Review;
 import com.nagarjun.estorebackend.service.ReviewService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +30,18 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.getReview(reviewId), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Review> createReview(Review review) {
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<List<Review>> getReviewsByProductId(@PathVariable Long productId) {
 
-        return new ResponseEntity<>(reviewService.createReview(review), HttpStatus.CREATED);
+        return new ResponseEntity<>(reviewService.getReviewsByProductId(productId), HttpStatus.OK);
+    }    
+
+    @PostMapping("/user/{userId}/product/{productId}")
+    public ResponseEntity<HttpStatus> createReview(@PathVariable Long productId, @PathVariable Long userId, @RequestBody Review review) {
+
+        reviewService.createReview(review, userId, productId);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{reviewId}")
@@ -40,7 +50,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.updateReview(reviewId, review), HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{reviewId}")
     public ResponseEntity<HttpStatus> deleteReview(@PathVariable Long reviewId) {
 
         reviewService.deleteReview(reviewId);
