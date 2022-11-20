@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService{
         order.setCreatedOn(currentDateTime);
         order.setUpdatedOn(currentDateTime);
         order.setProduct(product);
-        order.setUsers(user);
+        order.setUser(user);
         order.setQuantity(quantity);
         return orderRepository.save(order);
     }
@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order getOrderByUserIdAndProductId(Long userId, Long productId) {
         
-        Optional<Order> order = orderRepository.findByUsersIdAndProductId(userId, productId);
+        Optional<Order> order = orderRepository.findByUserIdAndProductId(userId, productId);
 
         return unwrappOrder(order, userId);
     }    
@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order getOrderByUserId(Long userId) {
         
-        Optional<Order> order = orderRepository.findByUsersId(userId);
+        Optional<Order> order = orderRepository.findByUserId(userId);
 
         return unwrappOrder(order, userId);
     }       
