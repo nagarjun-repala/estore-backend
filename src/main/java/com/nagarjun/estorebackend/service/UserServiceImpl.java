@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.service;
 
+import java.lang.StackWalker.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -43,10 +44,21 @@ public class UserServiceImpl implements UserService {
         return (List<User>)userRepository.findAll();
     }
 
+    @Override
+    public void deleteUser(Long id) {
+        
+        Optional<User> userEntity = userRepository.findById(id);
+        if(userEntity.isPresent()){
+            userRepository.deleteById(id);
+        }
+        else throw new EntityNotFoundException();
+    }    
+
     static User unwrapUser(Optional<User> entity, Long id) {
         if(entity.isPresent()) return entity.get();
         else throw new EntityNotFoundException();
     }
+    
 
     @Override
     public User updateUser(Long userId, User user) {
@@ -60,5 +72,6 @@ public class UserServiceImpl implements UserService {
         unwrappedUser.setUsername(user.getUsername());
         return unwrappedUser;
     }
+
 
 }
