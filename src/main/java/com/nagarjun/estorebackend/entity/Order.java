@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
@@ -40,7 +41,8 @@ public class Order {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
-    @Range(min=0, message = "Review description cannot be blank")
+    @Range(min=0, message = "Min: 0")
+    @NotNull(message = "Price cannot be blank")    
     @NonNull
     @Column
     private Integer quantity;
