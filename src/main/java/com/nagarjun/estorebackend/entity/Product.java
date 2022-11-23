@@ -6,6 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Range;
 import lombok.*;
 
 @Getter
@@ -21,14 +25,18 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name cannot be blank")
     @NonNull
     @Column(nullable = false)
     private String name;
 
+    @NotBlank(message = "Description cannot be blank")
     @NonNull
     @Column(nullable = false)
     private String description;
 
+    @Range(min = 0, message = "Min: 0")
+    @NotNull(message = "Price cannot be blank")
     @NonNull
     @Column(nullable = false)
     private Integer price;

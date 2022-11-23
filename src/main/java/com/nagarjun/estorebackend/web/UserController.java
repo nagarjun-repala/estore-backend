@@ -1,9 +1,7 @@
 package com.nagarjun.estorebackend.web;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +37,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
 
         return new ResponseEntity<>(userService.updateUser(id, user),HttpStatus.OK);
 

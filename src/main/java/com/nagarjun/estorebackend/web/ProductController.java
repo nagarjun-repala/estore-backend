@@ -6,6 +6,7 @@ import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.service.ProductService;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,19 +33,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
 
         return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable Long productId) {
+    public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product, @PathVariable Long productId) {
 
         return new ResponseEntity<>(productService.updateProduct(productId, product), HttpStatus.OK);
     }
 
     @PatchMapping("/{productId}")
-    public ResponseEntity<Product> partialUpdateProduct(@RequestBody Map<Object, Object> fields, @PathVariable Long productId) {
+    public ResponseEntity<Product> partialUpdateProduct(@Valid @RequestBody Map<Object, Object> fields, @PathVariable Long productId) {
 
         return new ResponseEntity<>(productService.partialUpdateProduct(productId, fields), HttpStatus.OK);
     }

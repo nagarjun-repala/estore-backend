@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -23,14 +25,17 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
     private Long id;
 
+    @NotBlank(message = "Title cannot be blank")
     @NonNull
     @Column(nullable = false)
     private String title;
 
+    @NotBlank(message = "Description cannot be blank")
     @NonNull
     @Column(nullable = false)
     private String description;
 
+    @NotBlank(message = "Rating cannot be blank")    
     @NonNull
     @Column(nullable = false)
     private String rating;

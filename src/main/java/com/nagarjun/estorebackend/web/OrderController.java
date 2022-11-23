@@ -2,10 +2,10 @@ package com.nagarjun.estorebackend.web;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.service.OrderService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +43,13 @@ public class OrderController {
     }       
 
     @PostMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @Valid @RequestBody Order order) {
 
         return new ResponseEntity<>(orderService.createOrder(order, userId, productId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
+    public ResponseEntity<Order> updateOrder(@PathVariable Long orderId, @Valid @RequestBody Order order) {
         return new ResponseEntity<>(orderService.updateOrder(orderId, order), HttpStatus.OK);
     }
 

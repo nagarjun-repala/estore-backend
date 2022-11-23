@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.entity.Review;
 import com.nagarjun.estorebackend.service.ReviewService;
-
 import java.util.List;
-
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +36,7 @@ public class ReviewController {
     }    
 
     @PostMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<HttpStatus> createReview(@PathVariable Long productId, @PathVariable Long userId, @RequestBody Review review) {
+    public ResponseEntity<HttpStatus> createReview(@PathVariable Long productId, @PathVariable Long userId, @Valid @RequestBody Review review) {
 
         reviewService.createReview(review, userId, productId);
 
@@ -45,7 +44,7 @@ public class ReviewController {
     }
 
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long reviewId, @RequestBody Review review) {
+    public ResponseEntity<Review> updateReview(@PathVariable Long reviewId, @Valid @RequestBody Review review) {
 
         return new ResponseEntity<>(reviewService.updateReview(reviewId, review), HttpStatus.OK);
     }

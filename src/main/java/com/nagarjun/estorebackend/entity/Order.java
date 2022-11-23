@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Range;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
@@ -38,6 +40,7 @@ public class Order {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
+    @Range(min=0, message = "Review description cannot be blank")
     @NonNull
     @Column
     private Integer quantity;

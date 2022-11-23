@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,29 +25,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Firstname cannot be empty")
+    @NotBlank(message = "Firstname cannot be blank")
     @NonNull
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @NotNull(message = "Lastname cannot be empty")
+    @NotBlank(message = "Lastname cannot be blank")
     @NonNull
     @Column(name = "last_name", nullable = false)    
     private String lastName;
 
-    @NotNull(message = "Username cannot be empty")
+    @NotBlank(message = "Username cannot be blank")
     @NonNull
     @Column(nullable = false)    
     private String username;
 
-    @NotNull(message = "Password cannot be empty")
+    @NotBlank(message = "Password cannot be blank")
     @NonNull
     @Column(nullable = false)    
     @Getter(onMethod = @__(@JsonIgnore))
     @Setter(onMethod = @__(@JsonProperty))
     private String password;
 
-    @NotNull(message = "Email cannot be empty")
+    @NotBlank(message = "Email cannot be blank")
     @NonNull
     @Column(nullable = false)
     private String email;
