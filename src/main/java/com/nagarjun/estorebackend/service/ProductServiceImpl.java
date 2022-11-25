@@ -8,8 +8,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-
 import com.nagarjun.estorebackend.entity.Product;
+import com.nagarjun.estorebackend.exception.ProductNotFoundException;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 
 @Service
@@ -22,8 +22,8 @@ public class ProductServiceImpl implements ProductService {
     public Product getProduct(Long productId) {
 
         Optional<Product> productEntity = productRepository.findById(productId);
-        
-        return unwrapProduct(productEntity, productId);
+        if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);
+        return productEntity.get();
     }
 
     @Override
@@ -35,19 +35,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Long productId) {
 
+        Optional<Product> productEntity = productRepository.findById(productId);
+        if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);        
         productRepository.deleteById(productId);
     }
 
     @Override
     public Product updateProduct(Long productId, Product product) {
 
-        Optional<Product> getProduct = productRepository.findById(productId);
-        Product unwrappedProduct = unwrapProduct(getProduct, productId);
-        unwrappedProduct.setDescription(product.getDescription());
-        unwrappedProduct.setName(product.getName());
-        unwrappedProduct.setPrice(product.getPrice());
-        return productRepository.save(unwrappedProduct);
-
+        Optional<Product> productEntity = productRepository.findById(productId);
+        if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);
+        Product updateProduct = productEntity.get();
+        updateProduct.setDescription(product.getDescription());
+        updateProduct.setName(product.getName());
+        updateProduct.setPrice(product.getPrice());
+        return productRepository.save(updateProduct);
     }
 
     @Override
