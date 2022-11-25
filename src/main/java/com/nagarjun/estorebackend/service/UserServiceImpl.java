@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.UserNotFoundException;
 import com.nagarjun.estorebackend.repository.UserRepository;
 
 @Service
@@ -20,15 +21,16 @@ public class UserServiceImpl implements UserService {
     public User getUser(Long userId) {
 
         Optional<User> userEntity = userRepository.findById(userId);
-        return unwrapUser(userEntity, userId);
-
+        if(userEntity.isPresent()) return userEntity.get();
+        throw new UserNotFoundException(userId);
     }
 
     @Override
     public User getUser(String username) {
 
-        Optional<User> user = userRepository.findByUsername(username);
-        return unwrapUser(user, 404L);
+        Optional<User> userEntity = userRepository.findByUsername(username);
+        if(userEntity.isPresent()) return userEntity.get();
+        throw new UserNotFoundException(username);
     }
 
     @Override
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
+        
         return (List<User>)userRepository.findAll();
     }
 
@@ -47,30 +50,23 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         
         Optional<User> userEntity = userRepository.findById(id);
-        if(userEntity.isPresent()){
-            userRepository.deleteById(id);
-        }
-        else throw new EntityNotFoundException();
+        if(userEntity.isPresent()) userRepository.deleteById(id);
+        throw new UserNotFoundException(id);
     }    
-
-    static User unwrapUser(Optional<User> entity, Long id) {
-        if(entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException();
-    }
-    
 
     @Override
     public User updateUser(Long userId, User user) {
-        Optional<User> getUser = userRepository.findById(userId);
+        Optional<User> userEntity = userRepository.findById(userId);
 
-        User unwrappedUser = unwrapUser(getUser, userId);
-        unwrappedUser.setFirstName(user.getFirstName());
-        unwrappedUser.setLastName(user.getLastName());
-        unwrappedUser.setEmail(user.getEmail());
-        unwrappedUser.setPassword(user.getPassword());
-        unwrappedUser.setUsername(user.getUsername());
-        return unwrappedUser;
+        if(userEntity.isPresent()){
+            User updateUser = userEntity.get();
+            updateUser.setFirstName(user.getFirstName());
+            updateUser.setLastName(user.getLastName());
+            updateUser.setEmail(user.getEmail());
+            updateUser.setPassword(user.getPassword());
+            updateUser.setUsername(user.getUsername());
+            return updateUser;
+        }
+        throw new UserNotFoundException(userId);   
     }
-
-
 }
