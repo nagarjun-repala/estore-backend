@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService{
         
         Optional<Order> orderEntity = orderRepository.findById(orderId);
         if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
-        return unwrappOrder(orderEntity, orderId);
+        return orderEntity.get();
     }
 
     @Override
