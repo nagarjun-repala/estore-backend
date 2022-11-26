@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.OrderNotFoundException;
 import com.nagarjun.estorebackend.repository.OrderRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
@@ -30,6 +31,7 @@ public class OrderServiceImpl implements OrderService{
     public Order getOrderById(Long orderId) {
         
         Optional<Order> orderEntity = orderRepository.findById(orderId);
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
         return unwrappOrder(orderEntity, orderId);
     }
 
@@ -52,10 +54,11 @@ public class OrderServiceImpl implements OrderService{
     public Order updateOrder(Long orderId, Order order) {
 
         Optional<Order> orderEntity = orderRepository.findById(orderId);
-        Order unwrappedOrder = unwrappOrder(orderEntity, orderId);
-        unwrappedOrder.setUpdatedOn(LocalDateTime.now());
-        unwrappedOrder.setQuantity(order.getQuantity());
-        return unwrappedOrder;
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
+        Order updateOrder = orderEntity.get();
+        updateOrder.setUpdatedOn(LocalDateTime.now());
+        updateOrder.setQuantity(order.getQuantity());
+        return updateOrder;
         
     }
 
@@ -63,10 +66,8 @@ public class OrderServiceImpl implements OrderService{
     public void deleteOrder(Long orderId) {
 
         Optional<Order> orderEntity = orderRepository.findById(orderId);
-
-        if(orderEntity.isPresent()) orderRepository.deleteById(orderId);
-        else throw new EntityNotFoundException();
- 
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
+        orderRepository.deleteById(orderId);
     }
 
     @Override
@@ -78,17 +79,17 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order getOrderByUserIdAndProductId(Long userId, Long productId) {
         
-        Optional<Order> order = orderRepository.findByUserIdAndProductId(userId, productId);
-
-        return unwrappOrder(order, userId);
+        Optional<Order> orderEntity = orderRepository.findByUserIdAndProductId(userId, productId);
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(userId, productId);
+        return orderEntity.get();
     }    
 
     @Override
-    public Order getOrderByUserId(Long userId) {
+    public List<Order> getOrdersByUserId(Long userId) {
         
-        Optional<Order> order = orderRepository.findByUserId(userId);
-
-        return unwrappOrder(order, userId);
+        List<Order> orderEntity = orderRepository.findAllByUserId(userId);
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(userId, "User");        
+        return (List<Order>) orderEntity;
     }       
 
     static Order unwrappOrder(Optional<Order> orderEntity, Long orderId) {

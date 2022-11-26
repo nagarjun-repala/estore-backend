@@ -37,9 +37,9 @@ public class OrderController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Order> getOrderByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable Long userId) {
 
-        return new ResponseEntity<>(orderService.getOrderByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrdersByUserId(userId), HttpStatus.OK);
     }       
 
     @PostMapping("/user/{userId}/product/{productId}")
