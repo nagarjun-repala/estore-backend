@@ -92,9 +92,12 @@ public class OrderServiceImpl implements OrderService{
         return (List<Order>) orderEntity;
     }       
 
-    static Order unwrappOrder(Optional<Order> orderEntity, Long orderId) {
-        if (orderEntity.isPresent()) return orderEntity.get();
-        else throw new EntityNotFoundException();
+    @Override
+    public List<Order> getOrdersByProductId(Long productId) {
+
+        List<Order> orderEntity = orderRepository.findAllByProductId(productId);
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(productId, "Product");        
+        return (List<Order>) orderEntity;
     }
 
 }
