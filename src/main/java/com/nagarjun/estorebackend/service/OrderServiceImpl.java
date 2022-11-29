@@ -3,7 +3,6 @@ package com.nagarjun.estorebackend.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Order;
@@ -87,17 +86,17 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> getOrdersByUserId(Long userId) {
         
-        List<Order> orderEntity = orderRepository.findAllByUserId(userId);
+        Optional <List<Order>> orderEntity = orderRepository.findAllByUserId(userId);
         if(orderEntity.isEmpty()) throw new OrderNotFoundException(userId, "User");        
-        return (List<Order>) orderEntity;
+        return orderEntity.get();
     }       
 
     @Override
     public List<Order> getOrdersByProductId(Long productId) {
 
-        List<Order> orderEntity = orderRepository.findAllByProductId(productId);
+        Optional <List<Order>> orderEntity = orderRepository.findAllByProductId(productId);
         if(orderEntity.isEmpty()) throw new OrderNotFoundException(productId, "Product");        
-        return (List<Order>) orderEntity;
+        return orderEntity.get();
     }
 
 }
