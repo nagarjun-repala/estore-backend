@@ -2,13 +2,12 @@ package com.nagarjun.estorebackend.service;
 
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.Review;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.ReviewNotFoundException;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.ReviewRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
@@ -29,14 +28,17 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public Review getReview(Long reviewId) {
 
-        Optional<Review> getReview = reviewRepository.findById(reviewId);
-        return unwrapReview(getReview, reviewId);
+        Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
+        if(reviewEntity.isEmpty()) throw new ReviewNotFoundException(reviewId);
+        return reviewEntity.get();
     }
     
     @Override
     public List<Review> getReviewsByProductId(Long productId) {
-
-        return (List<Review>) reviewRepository.findByProductId(productId).get();
+        
+        Optional<Product> productEntity = productRepository.findById(productId);
+        if(productEntity.isEmpty()) throw new ReviewNotFoundException(productId, "Product");
+        return reviewRepository.findByProductId(productId).get();
     }    
 
     @Override
@@ -52,26 +54,20 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public Review updateReview(Long reviewId, Review review) {
 
-        Optional<Review> getReview = reviewRepository.findById(reviewId);
-        Review unwrappedReview = unwrapReview(getReview, reviewId);
-        unwrappedReview.setDescription(review.getDescription());
-        unwrappedReview.setRating(review.getRating());
-        unwrappedReview.setTitle(review.getTitle());
-        return unwrappedReview;
+        Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
+        if(reviewEntity.isEmpty()) throw new ReviewNotFoundException(reviewId);
+        Review updateReview  = reviewEntity.get();
+        updateReview.setDescription(review.getDescription());
+        updateReview.setRating(review.getRating());
+        updateReview.setTitle(review.getTitle());
+        return updateReview;
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-        
+        Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
+        if(reviewEntity.isEmpty()) throw new ReviewNotFoundException(reviewId);
         reviewRepository.deleteById(reviewId);        
-    }
-
-
-    static Review unwrapReview(Optional<Review> entity, Long id) {
-
-        if(entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException();
-
     }
 
     @Override

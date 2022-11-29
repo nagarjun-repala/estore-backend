@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.nagarjun.estorebackend.exception.ErrorResponse;
 import com.nagarjun.estorebackend.exception.OrderNotFoundException;
 import com.nagarjun.estorebackend.exception.ProductNotFoundException;
+import com.nagarjun.estorebackend.exception.ReviewNotFoundException;
 import com.nagarjun.estorebackend.exception.UserNotFoundException;
 
 @ControllerAdvice
@@ -26,7 +27,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
         exception.getBindingResult().getAllErrors().forEach((error) -> errors.add(error.getDefaultMessage()));
         return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler({UserNotFoundException.class, OrderNotFoundException.class, ProductNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, OrderNotFoundException.class, ProductNotFoundException.class, ReviewNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException exception) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
