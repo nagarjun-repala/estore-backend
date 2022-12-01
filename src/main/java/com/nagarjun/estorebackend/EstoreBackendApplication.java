@@ -1,12 +1,14 @@
 package com.nagarjun.estorebackend;
 
 import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.boot.CommandLineRunner;
+
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.repository.ProductRepository;
@@ -44,8 +46,7 @@ public class EstoreBackendApplication implements CommandLineRunner{
 		}
 
 		User[] users = new User[] {			
-			new User("Nagarjun", "Repala", "nagarjun.repala", "password", "nagarjun.repala@outlook.com", LocalDateTime.now()),
-			new User("Test", "Test", "teset.test", "test", "test.test@outlook.com", LocalDateTime.now())			
+			new User("Nagarjun", "Repala", "nagarjun.repala", "password", "nagarjun.repala@outlook.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()))
 		};
 
 		for (User user : users) {
