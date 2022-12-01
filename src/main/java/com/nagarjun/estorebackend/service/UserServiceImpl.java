@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.nagarjun.estorebackend.GlobalMethods;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.UserNotFoundException;
 import com.nagarjun.estorebackend.repository.UserRepository;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         
-        user.setCreatedOn(LocalDateTime.now());
+        user.setCreatedOn(GlobalMethods.dateTimeFormatter(LocalDateTime.now()));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -70,5 +70,13 @@ public class UserServiceImpl implements UserService {
         updateUser.setPassword(user.getPassword());
         updateUser.setUsername(user.getUsername());
         return updateUser;
+    }
+
+    @Override
+    public void delteUser(String username) {
+        Optional<User> userEntity = userRepository.findByUsername(username);
+        if(userEntity.isEmpty()) throw new UserNotFoundException(username);
+        userRepository.deleteUserByUsername(username);
+        
     }
 }
