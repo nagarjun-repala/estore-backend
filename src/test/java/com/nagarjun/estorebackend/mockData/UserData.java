@@ -15,7 +15,8 @@ public class UserData {
 
     private User user = new User("test1", "test1", "test1", "test1", "test1@outlook.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()));
 
-    private String insertUser = "{\"firstName\": \"test2\", \"lastName\": \"test2\", \"username\" : \"test2\", \"password\" : \"test2\", \"email\" : \"test2@outlook.com\"}";
+    private String validUser = "{\"firstName\": \"test2\", \"lastName\": \"test2\", \"username\" : \"test2\", \"password\" : \"test2\", \"email\" : \"test2@outlook.com\"}";
+    private String invalidUser = "{\"firstName\": \"test3\", \"lastName\": \"test3\", \"password\" : \"test2\", \"email\" : \"test2@outlook.com\"}";
 
 
     public void setup(){
@@ -31,8 +32,12 @@ public class UserData {
         return user;
     }
 
-    public String insertUser() {
-        return insertUser;
+    public String insertValidUser() {
+        return validUser;
+    }
+
+    public String insertInvalidUser() {
+        return invalidUser;
     }
 
 }

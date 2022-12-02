@@ -34,12 +34,11 @@ public class UserTests {
     // }
 
     @Test
-    public void createUser() throws Exception {
-        System.out.println("Hello" + userData.insertUser());
+    public void validUserCreation() throws Exception {
 
         RequestBuilder request = MockMvcRequestBuilders.post("/user/register")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(userData.insertUser());
+            .content(userData.insertValidUser());
 
         mockMvc.perform(request).andExpect(status().isCreated());
     }
@@ -74,4 +73,12 @@ public class UserTests {
         
     }
 
+    @Test
+    public void invalidUserCreation() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.post("/user/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(userData.insertInvalidUser());
+        mockMvc.perform(request).andExpect(status().isBadRequest());
+
+    }
 }
