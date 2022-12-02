@@ -52,9 +52,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        
-        Optional<User> userEntity = userRepository.findById(id);
-        if(userEntity.isEmpty()) throw new UserNotFoundException(id);
         userRepository.deleteById(id);
     }    
 
@@ -74,9 +71,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delteUser(String username) {
-        Optional<User> userEntity = userRepository.findByUsername(username);
-        if(userEntity.isEmpty()) throw new UserNotFoundException(username);
         userRepository.deleteUserByUsername(username);
-        
     }
 }

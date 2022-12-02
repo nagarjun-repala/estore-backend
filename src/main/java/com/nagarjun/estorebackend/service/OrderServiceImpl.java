@@ -63,9 +63,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void deleteOrder(Long orderId) {
-
-        Optional<Order> orderEntity = orderRepository.findById(orderId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
         orderRepository.deleteById(orderId);
     }
 

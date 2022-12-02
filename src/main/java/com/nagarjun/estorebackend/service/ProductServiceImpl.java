@@ -33,10 +33,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long productId) {
-
-        Optional<Product> productEntity = productRepository.findById(productId);
-        if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);        
+    public void deleteProduct(Long productId) {     
         productRepository.deleteById(productId);
     }
 
