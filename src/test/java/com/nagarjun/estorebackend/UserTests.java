@@ -35,7 +35,6 @@ public class UserTests {
 
     @Test
     public void validUserCreation() throws Exception {
-
         RequestBuilder request = MockMvcRequestBuilders.post("/user/register")
             .contentType(MediaType.APPLICATION_JSON)
             .content(userData.insertValidUser());
@@ -43,7 +42,7 @@ public class UserTests {
         mockMvc.perform(request).andExpect(status().isCreated());
     }
     @Test
-    public void getUserByIdTest() throws Exception {
+    public void validGetUserById() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders.get("/user/{id}", 2);
         mockMvc.perform(request)
             .andExpect(status().isOk())
@@ -58,8 +57,7 @@ public class UserTests {
     }
 
     @Test
-    public void getUserByUsername() throws Exception {
-
+    public void validGetUserByUsername() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders.get("/user/username/{username}", "test1");
         mockMvc.perform(request)
             .andExpect(status().isOk())
@@ -69,9 +67,23 @@ public class UserTests {
             .andExpect(jsonPath("$.lastName").value(userData.getUser().getLastName()))
             .andExpect(jsonPath("$.username").value(userData.getUser().getUsername()))
             .andExpect(jsonPath("$.email").value(userData.getUser().getEmail()))
-            .andExpect(jsonPath("$.createdOn").value(userData.getUser().getCreatedOn()));        
+            .andExpect(jsonPath("$.createdOn").value(userData.getUser().getCreatedOn()));
+    }
+
+    @Test
+    public void invalidGetUserById() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/user/{id}", 10);
+        mockMvc.perform(request)
+            .andExpect(status().isNotFound());
         
     }
+
+    @Test
+    public void invalidGetUserByUsername() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.get("/user/username/{username}", "test10");
+        mockMvc.perform(request)
+            .andExpect(status().isNotFound());
+    }    
 
     @Test
     public void invalidUserCreation() throws Exception {
@@ -79,6 +91,33 @@ public class UserTests {
             .contentType(MediaType.APPLICATION_JSON)
             .content(userData.insertInvalidUser());
         mockMvc.perform(request).andExpect(status().isBadRequest());
+    }
 
+    @Test
+    public void validUserUpdate() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.put("/user/{id}", 2)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(userData.insertValidUser());
+        mockMvc.perform(request).andExpect(status().isOk());
+    }
+
+    @Test
+    public void invalidUserUpdate() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.put("/user/{id}", 2)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(userData.insertInvalidUser());
+        mockMvc.perform(request).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void validUserDeletion() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.delete("/user/{id}", 2);
+        mockMvc.perform(request).andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void invalidUserDeletion() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.delete("/user/{id}", 5);
+        mockMvc.perform(request).andExpect(status().isNotFound());
     }
 }
