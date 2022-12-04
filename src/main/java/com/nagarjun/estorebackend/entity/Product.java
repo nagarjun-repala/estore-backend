@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 
 @Getter
@@ -43,9 +46,11 @@ public class Product {
     @Column(nullable = false)
     private Integer price;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Order> orders;
-   
+    
+    @JsonIgnore   
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> review;
 }
