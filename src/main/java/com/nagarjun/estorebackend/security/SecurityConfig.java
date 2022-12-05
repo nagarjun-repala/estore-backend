@@ -1,57 +1,31 @@
 package com.nagarjun.estorebackend.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.nagarjun.estorebackend.security.filter.AuthenticationFilter;
+import com.nagarjun.estorebackend.security.filter.FilterOne;
 
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        authenticationFilter.setFilterProcessesUrl(SecurityConstants.LOGIN_PATH);
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST).hasAnyRole("ADMIN", "USER")
-            .antMatchers(HttpMethod.GET).permitAll()
+            .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
             .anyRequest().authenticated()
             .and()
-            .httpBasic()
-            .and()
+            .addFilterBefore(new FilterOne(), AuthenticationFilter.class)            
+            .addFilter(authenticationFilter)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        
         return http.build();
     }
-
-    @Bean
-    public UserDetailsService users(){
-        UserDetails admin = User.builder()
-            .username("admin")
-            .password(bCryptPasswordEncoder.encode("admin"))
-            .roles("ADMIN")
-            .build();
-
-        UserDetails user = User.builder()
-        .username("user")
-        .password(bCryptPasswordEncoder.encode("user"))
-        .roles("USER")
-        .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
-
-    }
-    
 }
