@@ -8,7 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.nagarjun.estorebackend.security.filter.AuthenticationFilter;
-import com.nagarjun.estorebackend.security.filter.FilterOne;
+import com.nagarjun.estorebackend.security.filter.ExceptionHandlerFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -23,8 +23,9 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilterBefore(new FilterOne(), AuthenticationFilter.class)            
+            .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)            
             .addFilter(authenticationFilter)
+            // .addFilterAfter(new FilterTwo(), AuthenticationFilter.class)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
