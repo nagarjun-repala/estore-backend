@@ -1,4 +1,4 @@
-package com.nagarjun.estorebackend;
+package com.nagarjun.estorebackend.exception;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,11 +14,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import com.nagarjun.estorebackend.exception.ErrorResponse;
-import com.nagarjun.estorebackend.exception.OrderNotFoundException;
-import com.nagarjun.estorebackend.exception.ProductNotFoundException;
-import com.nagarjun.estorebackend.exception.ReviewNotFoundException;
-import com.nagarjun.estorebackend.exception.UserNotFoundException;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{

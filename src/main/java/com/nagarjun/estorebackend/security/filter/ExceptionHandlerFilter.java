@@ -18,12 +18,12 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
 
                 try {
                     filterChain.doFilter(request, response);
-                } catch (UserNotFoundException e){
-                    GlobalMethods.errorResponseFilter(response, "User not found", HttpServletResponse.SC_NOT_FOUND);
-                } catch (JWTVerificationException e){
-                    GlobalMethods.errorResponseFilter(response, "Not a valid JWT", HttpServletResponse.SC_FORBIDDEN);
-                } catch (RuntimeException e) {
-                    GlobalMethods.errorResponseFilter(response, "BAD REQUEST", HttpServletResponse.SC_BAD_REQUEST);
+                } catch (UserNotFoundException error){
+                    GlobalMethods.responseHandler(response, error.getMessage(), HttpServletResponse.SC_NOT_FOUND);
+                } catch (JWTVerificationException error){
+                    GlobalMethods.responseHandler(response, error.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
+                } catch (RuntimeException error) {
+                    GlobalMethods.responseHandler(response, error.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
                 }        
     }
 }
