@@ -8,10 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.boot.CommandLineRunner;
-
 import com.nagarjun.estorebackend.entity.Product;
+import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.repository.ProductRepository;
+import com.nagarjun.estorebackend.repository.RoleRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
 
 @SpringBootApplication
@@ -22,6 +23,9 @@ public class EstoreBackendApplication implements CommandLineRunner{
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EstoreBackendApplication.class, args);
@@ -52,5 +56,7 @@ public class EstoreBackendApplication implements CommandLineRunner{
 		for (User user : users) {
 			userRepository.save(user);
 		}
+		roleRepository.save(new Role("ADMIN"));
+		roleRepository.save(new Role("USER"));
 	}
 }

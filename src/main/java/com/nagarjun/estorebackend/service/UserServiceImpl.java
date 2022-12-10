@@ -6,9 +6,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.GlobalMethods;
+import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.UserNotFoundException;
+import com.nagarjun.estorebackend.repository.RoleRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
 
 @Service
@@ -16,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -39,8 +46,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         
+        Role role = roleRepository.findById(Constants.DEFAULT_ROLE).get();    
         user.setCreatedOn(GlobalMethods.dateTimeFormatter(LocalDateTime.now()));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        role.getUsers().add(user);
         return userRepository.save(user);
     }
 
