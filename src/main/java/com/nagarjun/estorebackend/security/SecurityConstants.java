@@ -7,4 +7,5 @@ public class SecurityConstants {
     public static final String AUTHORIZATION = "Authorization";
     public static final String REGISTER_PATH = "/user/register";
     public static final String LOGIN_PATH = "/user/login";
+    public static final String ROLE = "ROLE";
 }

@@ -48,6 +48,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
+                System.out.println(authResult.getAuthorities());
                 String token = JWT.create()
                 .withSubject(authResult.getName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
