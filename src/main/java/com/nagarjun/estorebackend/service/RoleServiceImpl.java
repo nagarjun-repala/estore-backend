@@ -5,19 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import com.nagarjun.estorebackend.entity.Role;
-import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.RoleNotFoundException;
 import com.nagarjun.estorebackend.repository.RoleRepository;
-import com.nagarjun.estorebackend.repository.UserRepository;
 
 @Service
 public class RoleServiceImpl implements RoleService{
 
     @Autowired
     private RoleRepository roleRepository;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Override
 	public Role getRoleById(Long roleId) {
@@ -51,12 +46,4 @@ public class RoleServiceImpl implements RoleService{
 		return (List<Role>) roleRepository.findAll();
 	}
 
-
-	@Override
-	public void assignRole(Long roleId, Long userId) {
-		Role role = getRoleById(roleId);
-		User user = userRepository.findById(userId).get();
-		role.getUsers().add(user);
-		
-	}
 }

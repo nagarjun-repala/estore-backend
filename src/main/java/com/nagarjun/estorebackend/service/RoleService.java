@@ -11,7 +11,4 @@ public interface RoleService {
     Role updateRole(Long roleId, Role role);
     void delteRole(Long roleId);
     List<Role> getRoles();
-    void assignRole(Long roleId, Long userId);
-
-    
 }
