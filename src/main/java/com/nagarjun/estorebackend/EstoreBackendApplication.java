@@ -50,7 +50,7 @@ public class EstoreBackendApplication implements CommandLineRunner{
 		}
 
 		User[] users = new User[] {			
-			new User("Nagarjun", "Repala", "nagarjun.repala", "password", "nagarjun.repala@outlook.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()))
+			new User("admin", "admin", "admin", bCryptPasswordEncoder().encode("admin"), "admin@admin.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()))
 		};
 
 		for (User user : users) {

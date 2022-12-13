@@ -2,6 +2,8 @@ package com.nagarjun.estorebackend.security.manager;
 
 import lombok.AllArgsConstructor;
 import java.util.ArrayList;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,12 +14,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.service.UserService;
 
 @AllArgsConstructor
 @Component
-public class CustomAuthenticationManager implements AuthenticationManager, GrantedAuthority{
+public class CustomAuthenticationManager implements AuthenticationManager{
 
     @Autowired
     private UserService userService;
@@ -31,16 +34,18 @@ public class CustomAuthenticationManager implements AuthenticationManager, Grant
         if(!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())){
             throw new BadCredentialsException("You provided an incorrect password");
         }
-        // Set<Role> role = user.getRoles();
 
+        return new UsernamePasswordAuthenticationToken(user.getId(), authentication.getCredentials().toString(), getAuthorities(user));
+    }
+
+    private ArrayList<GrantedAuthority> getAuthorities(User user) {
         ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(getAuthority()));
-
-        return new UsernamePasswordAuthenticationToken(user.getId(), authentication.getCredentials().toString(), grantedAuthorities);
+        Set<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            
+        }
+        return grantedAuthorities;
     }
 
-    @Override
-    public String getAuthority() {
-        return "ADMIN";
-    }
 }

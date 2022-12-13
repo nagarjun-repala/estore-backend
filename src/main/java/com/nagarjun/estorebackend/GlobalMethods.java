@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.GsonBuilder;
 import com.nagarjun.estorebackend.exception.ErrorResponse;
+import com.nagarjun.estorebackend.security.SecurityConstants;
 
 public class GlobalMethods {
 
@@ -25,8 +26,8 @@ public class GlobalMethods {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializerAndDeserializer());
-        response.setContentType(Constants.CONTENT_TYPE);
-        response.setCharacterEncoding(Constants.CHAR_ENCOCDE);
+        response.setContentType(SecurityConstants.CONTENT_TYPE);
+        response.setCharacterEncoding(SecurityConstants.CHAR_ENCOCDE);
         response.setStatus(statusCode);
         response.getWriter().print(gsonBuilder.setPrettyPrinting().create().toJson(new ErrorResponse(Arrays.asList(errorMessage))));
         response.getWriter().flush();

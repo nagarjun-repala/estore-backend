@@ -1,6 +1,9 @@
 package com.nagarjun.estorebackend.security.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -48,14 +52,26 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-                System.out.println(authResult.getAuthorities());
+
                 String token = JWT.create()
                 .withSubject(authResult.getName())
-                .withArrayClaim("AUTHORITIES", new String[]{"ADMIN", "USER"})
+                .withArrayClaim("AUTHORITIES", getRolesForUser(authResult))
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign((Algorithm.HMAC512(SecurityConstants.SECRET_KEY)));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);                
 
     }
     //Authorization : Bearer JWTTOKEN
+
+    private String[] getRolesForUser(Authentication authResult) {
+
+        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
+        String[] roles = new String[authorities.size()];
+        int i = 0;
+        for (GrantedAuthority grantedAuthority : authResult.getAuthorities()) {
+            roles[i] = grantedAuthority.toString();
+            i++;
+        }
+        return roles;
+    }
 }
