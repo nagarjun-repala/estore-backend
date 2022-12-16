@@ -11,6 +11,7 @@ make run
 User API
 ```
 Create user - POST: http://localhost:8080/user/register
+```
 ```JSON
 {
     "firstName": "test",
@@ -20,12 +21,15 @@ Create user - POST: http://localhost:8080/user/register
     "email" : "test@test.com"
 }
 ```
-
+```
 Login user - POST: http://localhost:8080/user/login
+```
+```JSON
 {
     "username" : "test",
     "password" : "test"
 }
-
+```
+```
 Get all users - GET: http://localhost:8080/user/all
 ```
