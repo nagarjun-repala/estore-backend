@@ -49,7 +49,10 @@ public class UserServiceImpl implements UserService {
         user.setCreatedOn(GlobalMethods.dateTimeFormatter(LocalDateTime.now()));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         role.getUsers().add(user);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        roleRepository.save(role);
+        return savedUser;
+
     }
 
     @Override

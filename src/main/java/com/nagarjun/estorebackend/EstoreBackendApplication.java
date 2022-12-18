@@ -14,15 +14,16 @@ import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.RoleRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
+import com.nagarjun.estorebackend.security.SecurityConstants;
 
 @SpringBootApplication
 public class EstoreBackendApplication implements CommandLineRunner{
 
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -48,15 +49,20 @@ public class EstoreBackendApplication implements CommandLineRunner{
 		for (Product product : products) {
 			productRepository.save(product);
 		}
+		roleRepository.save(new Role("ADMIN"));
+		roleRepository.save(new Role("USER"));
+		Role role = roleRepository.findById(SecurityConstants.ROLE_ADMIN_ID).get();
 
 		User[] users = new User[] {			
 			new User("admin", "admin", "admin", bCryptPasswordEncoder().encode("admin"), "admin@admin.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()))
 		};
 
+		
 		for (User user : users) {
+			role.getUsers().add(user);
 			userRepository.save(user);
+			roleRepository.save(role);
 		}
-		roleRepository.save(new Role("ADMIN"));
-		roleRepository.save(new Role("USER"));
+
 	}
 }

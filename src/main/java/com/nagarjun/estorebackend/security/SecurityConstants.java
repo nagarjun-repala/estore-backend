@@ -8,6 +8,7 @@ public class SecurityConstants {
     public static final String REGISTER_PATH = "/user/register";
     public static final String LOGIN_PATH = "/user/login";
     public static final Long DEFAULT_ROLE = 2L;
+    public static final Long ROLE_ADMIN_ID = 1L;
     public static final String CONTENT_TYPE = "application/json";
     public static final String CHAR_ENCOCDE = "UTF-8";
     public static final String ROLE_ADMIN = "ADMIN";

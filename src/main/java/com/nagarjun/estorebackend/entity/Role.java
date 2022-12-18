@@ -1,8 +1,11 @@
 package com.nagarjun.estorebackend.entity;
 
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,12 +37,13 @@ public class Role {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "Role cannot be blank")  
     @NonNull
     @Column
     private String name;
     
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "role_user",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
