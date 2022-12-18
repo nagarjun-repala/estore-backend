@@ -1,8 +1,6 @@
 package com.nagarjun.estorebackend.security.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import javax.servlet.FilterChain;
