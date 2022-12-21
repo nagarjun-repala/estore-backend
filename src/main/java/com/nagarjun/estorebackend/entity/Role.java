@@ -39,7 +39,7 @@ public class Role {
 
     @NotBlank(message = "Role cannot be blank")  
     @NonNull
-    @Column
+    @Column(unique = true)
     private String name;
     
     @JsonIgnore
