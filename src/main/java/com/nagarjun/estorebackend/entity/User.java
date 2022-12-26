@@ -68,4 +68,8 @@ public class User {
     @ManyToMany(mappedBy = "users", fetch= FetchType.EAGER)
     private Set<Role> roles;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Address> addresses;    
+
 }
