@@ -3,7 +3,6 @@ package com.nagarjun.estorebackend.exception;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
         exception.getBindingResult().getAllErrors().forEach((error) -> errors.add(error.getDefaultMessage()));
         return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler({UserNotFoundException.class, OrderNotFoundException.class, ProductNotFoundException.class, ReviewNotFoundException.class, RoleNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, OrderNotFoundException.class, ProductNotFoundException.class, ReviewNotFoundException.class, RoleNotFoundException.class, AddressNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException exception) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

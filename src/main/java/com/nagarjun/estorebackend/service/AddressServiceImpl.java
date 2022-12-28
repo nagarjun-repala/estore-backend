@@ -2,6 +2,7 @@ package com.nagarjun.estorebackend.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.Optional;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.User;
@@ -9,6 +10,7 @@ import com.nagarjun.estorebackend.exception.AddressNotFoundException;
 import com.nagarjun.estorebackend.repository.AddressRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
 
+@Service
 public class AddressServiceImpl implements AddressService{
 
     @Autowired
