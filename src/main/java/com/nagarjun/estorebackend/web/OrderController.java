@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class OrderController {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
 
     @GetMapping("/{orderId}")
@@ -42,10 +42,10 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getOrdersByUserId(userId), HttpStatus.OK);
     }       
 
-    @PostMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @Valid @RequestBody Order order) {
+    @PostMapping("/user/{userId}/product/{productId}/address/{addressId}")
+    public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @PathVariable Long addressId, @Valid @RequestBody Order order) {
 
-        return new ResponseEntity<>(orderService.createOrder(order, userId, productId), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.createOrder(order, userId, productId, addressId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{orderId}")

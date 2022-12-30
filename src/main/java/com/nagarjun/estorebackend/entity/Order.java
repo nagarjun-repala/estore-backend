@@ -1,7 +1,6 @@
 package com.nagarjun.estorebackend.entity;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Range;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.*;
 
 @Getter
@@ -55,5 +51,9 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
+    
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
     
 }

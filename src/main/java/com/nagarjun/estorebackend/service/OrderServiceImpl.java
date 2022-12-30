@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.OrderNotFoundException;
+import com.nagarjun.estorebackend.repository.AddressRepository;
 import com.nagarjun.estorebackend.repository.OrderRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
@@ -26,6 +29,9 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Override
     public Order getOrderById(Long orderId) {
         
@@ -35,10 +41,11 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order createOrder(Order order, Long userId, Long productId) {
+    public Order createOrder(Order order, Long userId, Long productId, Long addressId) {
 
         User user = userRepository.findById(userId).get();
         Product product = productRepository.findById(productId).get();
+        Address address = addressRepository.findById(addressId).get();
         Integer quantity = order.getQuantity();
         LocalDateTime currentDateTime = LocalDateTime.now();
         order.setCreatedOn(currentDateTime);
@@ -46,6 +53,7 @@ public class OrderServiceImpl implements OrderService{
         order.setProduct(product);
         order.setUser(user);
         order.setQuantity(quantity);
+        order.setAddress(address);
         return orderRepository.save(order);
     }
 

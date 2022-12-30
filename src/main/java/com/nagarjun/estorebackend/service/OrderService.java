@@ -9,7 +9,7 @@ public interface OrderService {
     Order getOrderById(Long orderId);
     Order getOrderByUserIdAndProductId(Long userId, Long productId);
     List<Order> getOrdersByUserId(Long userId);
-    Order createOrder(Order order, Long userId, Long productId);
+    Order createOrder(Order order, Long userId, Long productId, Long addressId);
     Order updateOrder(Long orderId, Order order);
     void deleteOrder(Long orderId);
     List<Order> getOrders();
