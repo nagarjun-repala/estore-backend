@@ -104,4 +104,12 @@ public class OrderServiceImpl implements OrderService{
         return orderEntity.get();
     }
 
+    @Override
+    public List<Order> getOrdersByAddressId(Long addressId) {
+
+        Optional <List<Order>> orderEntity = orderRepository.findAllByAddressId(addressId);
+        if(orderEntity.isEmpty()) throw new OrderNotFoundException(addressId, "Address");        
+        return orderEntity.get();
+    }
+
 }

@@ -71,6 +71,12 @@ public class OrderController {
     public ResponseEntity<List<Order>> getOrders(@PathVariable Long productId) {
 
         return new ResponseEntity<>(orderService.getOrdersByProductId(productId), HttpStatus.OK);
-    }    
+    }
+    
+    @GetMapping("/address/{addressId}")
+    public ResponseEntity<List<Order>> getOrdersByAddressId(@PathVariable Long addressId) {
+
+        return new ResponseEntity<>(orderService.getOrdersByAddressId(addressId), HttpStatus.OK);
+    }      
 
 }

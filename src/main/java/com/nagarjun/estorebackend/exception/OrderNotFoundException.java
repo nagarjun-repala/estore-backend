@@ -10,8 +10,8 @@ public class OrderNotFoundException extends RuntimeException {
         super("UserId: '"  + userId + "' and ProductId: '" + productId + "' does not exist in our records");
     }
 
-    public OrderNotFoundException(Long id, String userOrProduct) {
-        super("Orders for " + userOrProduct + "Id: '"  + id + "' does not exist in our records");
+    public OrderNotFoundException(Long id, String userOrProductOrAddress) {
+        super("Orders for " + userOrProductOrAddress + "Id: '"  + id + "' does not exist in our records");
 
     }
 }
