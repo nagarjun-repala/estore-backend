@@ -41,9 +41,9 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public List<Address> getAddressesByUserId(Long userId) {
-        Optional<List<Address>> addressEntity = addressRepository.findAllByUserId(userId);
-        if(addressEntity.isEmpty()) throw new AddressNotFoundException(userId);
-        return addressEntity.get();
+        List<Address> addresses = addressRepository.findAllByUserId(userId).get();
+        if(addresses.isEmpty()) throw new AddressNotFoundException(userId, "user");
+        return addresses;
     }
     
 }

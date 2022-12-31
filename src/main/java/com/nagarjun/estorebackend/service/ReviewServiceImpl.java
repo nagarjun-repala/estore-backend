@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.Review;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.ProductNotFoundException;
 import com.nagarjun.estorebackend.exception.ReviewNotFoundException;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.ReviewRepository;
@@ -37,8 +38,10 @@ public class ReviewServiceImpl implements ReviewService{
     public List<Review> getReviewsByProductId(Long productId) {
         
         Optional<Product> productEntity = productRepository.findById(productId);
-        if(productEntity.isEmpty()) throw new ReviewNotFoundException(productId, "Product");
-        return reviewRepository.findByProductId(productId).get();
+        if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);
+        List<Review> reviews = reviewRepository.findByProductId(productId).get();
+        if(reviews.isEmpty()) throw new ReviewNotFoundException(productId, "Product");
+        return reviews;
     }    
 
     @Override

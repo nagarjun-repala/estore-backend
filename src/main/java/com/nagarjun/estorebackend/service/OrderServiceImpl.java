@@ -91,25 +91,25 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> getOrdersByUserId(Long userId) {
         
-        Optional <List<Order>> orderEntity = orderRepository.findAllByUserId(userId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(userId, "User");        
-        return orderEntity.get();
+       List<Order> orders = orderRepository.findAllByUserId(userId).get();
+        if(orders.isEmpty()) throw new OrderNotFoundException(userId, "User");        
+        return orders;
     }       
 
     @Override
     public List<Order> getOrdersByProductId(Long productId) {
 
-        Optional <List<Order>> orderEntity = orderRepository.findAllByProductId(productId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(productId, "Product");        
-        return orderEntity.get();
+        List<Order> orders = orderRepository.findAllByProductId(productId).get();
+        if(orders.isEmpty()) throw new OrderNotFoundException(productId, "Product");        
+        return orders;
     }
 
     @Override
     public List<Order> getOrdersByAddressId(Long addressId) {
 
-        Optional <List<Order>> orderEntity = orderRepository.findAllByAddressId(addressId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(addressId, "Address");        
-        return orderEntity.get();
+        List<Order> orders = orderRepository.findAllByAddressId(addressId).get();
+        if(orders.isEmpty()) throw new OrderNotFoundException(addressId, "Address");        
+        return orders;
     }
 
 }

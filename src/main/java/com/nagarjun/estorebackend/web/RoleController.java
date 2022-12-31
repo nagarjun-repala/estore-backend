@@ -52,7 +52,7 @@ public class RoleController {
 
     @DeleteMapping("/{roleId}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long roleId) {
-        roleService.delteRole(roleId);
+        roleService.deleteRole(roleId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
