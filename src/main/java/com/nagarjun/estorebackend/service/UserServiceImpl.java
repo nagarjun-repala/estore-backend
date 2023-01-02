@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.GlobalMethods;
+import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.UserNotFoundException;
+import com.nagarjun.estorebackend.repository.CartRepository;
 import com.nagarjun.estorebackend.repository.RoleRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
 import com.nagarjun.estorebackend.security.SecurityConstants;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Override
     public User getUser(Long userId) {
@@ -45,11 +50,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         
+        Cart cart = new Cart();
         Role role = roleRepository.findById(SecurityConstants.DEFAULT_ROLE).get();    
         user.setCreatedOn(GlobalMethods.dateTimeFormatter(LocalDateTime.now()));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         role.getUsers().add(user);
         User savedUser = userRepository.save(user);
+        cart.setUser(savedUser);
+        cartRepository.save(cart);
         roleRepository.save(role);
         return savedUser;
 
