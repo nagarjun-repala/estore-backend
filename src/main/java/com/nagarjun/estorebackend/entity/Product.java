@@ -56,6 +56,6 @@ public class Product {
     private List<Review> review;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE)
     private CartDetails cartDetails;    
 }
