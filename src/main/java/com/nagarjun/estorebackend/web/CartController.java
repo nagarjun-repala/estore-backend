@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.nagarjun.estorebackend.entity.CartDetails;
+import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.ProductCartItem;
+import com.nagarjun.estorebackend.entity.ProductQuantity;
 import com.nagarjun.estorebackend.service.CartService;
 
 @RestController
@@ -23,13 +24,13 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<CartDetails> createAddress(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody CartDetails cartDetails){
+    public ResponseEntity<Cart> createAddress(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody ProductQuantity productQuantity){
 
-        return new ResponseEntity<>(cartService.addProduct(cartId, productId, cartDetails), HttpStatus.CREATED);
+        return new ResponseEntity<>(cartService.addProduct(cartId, productId, productQuantity), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<CartDetails> deleteProduct(@PathVariable Long cartId, @PathVariable Long productId){
+    public ResponseEntity<Cart> deleteProduct(@PathVariable Long cartId, @PathVariable Long productId){
 
         cartService.deleteProduct(cartId, productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -43,9 +44,9 @@ public class CartController {
     
     
     @GetMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<CartDetails> getProductsByCartIdAndProductId(@PathVariable Long cartId, @PathVariable Long productId){
+    public ResponseEntity<Cart> getProductsByCartIdAndProductId(@PathVariable Long cartId, @PathVariable Long productId){
 
         return new ResponseEntity<>(cartService.getProductsByCartIdAndProductId(cartId, productId), HttpStatus.OK);
-    }       
+    }      
     
 }
