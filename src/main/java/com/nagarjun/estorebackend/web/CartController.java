@@ -1,6 +1,5 @@
 package com.nagarjun.estorebackend.web;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.entity.Cart;
-import com.nagarjun.estorebackend.entity.ProductCartItem;
-import com.nagarjun.estorebackend.entity.ProductQuantity;
+import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.service.CartService;
 
 @RestController
@@ -24,9 +22,9 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<Cart> createAddress(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody ProductQuantity productQuantity){
+    public ResponseEntity<CartItem> createAddress(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody CartItem cartItem){
 
-        return new ResponseEntity<>(cartService.addProduct(cartId, productId, productQuantity), HttpStatus.CREATED);
+        return new ResponseEntity<>(cartService.addProduct(cartId, productId, cartItem), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{cartId}/product/{productId}")
@@ -35,13 +33,6 @@ public class CartController {
         cartService.deleteProduct(cartId, productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
-    @GetMapping("/{cartId}")
-    public ResponseEntity<List<ProductCartItem>> getProducts(@PathVariable Long cartId){
-
-        return new ResponseEntity<>(cartService.getProducts(cartId), HttpStatus.OK);
-    }
-    
     
     @GetMapping("/{cartId}/product/{productId}")
     public ResponseEntity<Cart> getProductsByCartIdAndProductId(@PathVariable Long cartId, @PathVariable Long productId){

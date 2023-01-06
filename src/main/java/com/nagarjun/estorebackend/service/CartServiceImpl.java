@@ -1,13 +1,13 @@
 package com.nagarjun.estorebackend.service;
 
-
-import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Cart;
+import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.entity.Product;
-import com.nagarjun.estorebackend.entity.ProductCartItem;
-import com.nagarjun.estorebackend.entity.ProductQuantity;
+import com.nagarjun.estorebackend.exception.ResourceExistException;
+import com.nagarjun.estorebackend.repository.CartItemRepository;
 import com.nagarjun.estorebackend.repository.CartRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 
@@ -20,13 +20,19 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
     @Override
-    public Cart addProduct(Long cartId, Long productId, ProductQuantity productQuantity) {
+    public CartItem addProduct(Long cartId, Long productId, CartItem cartItem) {
 
         Cart cart = cartRepository.findById(cartId).get();
         Product product = productRepository.findById(productId).get();
-        cart.getProduct().add(product);
-        return cartRepository.save(cart);
+        Optional<CartItem> cartItemEntity =  cartItemRepository.findByCartIdAndProductId(cartId, productId);
+        if(cartItemEntity.isPresent()) throw new ResourceExistException(productId, "Product");
+        cartItem.setCart(cart);
+        cartItem.setProduct(product);
+        return cartItemRepository.save(cartItem);
     }
 
     @Override
@@ -35,22 +41,6 @@ public class CartServiceImpl implements CartService{
         
     }
 
-    @Override
-    public List<ProductCartItem> getProducts(Long cartId) {
-
-        // List<ProductCartItem> products = new ArrayList<ProductCartItem>(); 
-        // List<CartDetails> cartItems = cartRepository.findAllByCartId(cartId).get();
-        // if(cartItems.isEmpty()) throw new ProductNotFoundException(cartId, "Cart");
-        // for (CartDetails rawItem : cartItems) {
-        //     Product cartRawProduct = new ProductCartItem(rawItem.getProduct());
-        //     ProductCartItem item = (ProductCartItem) cartRawProduct;
-        //     item.setQuantity(rawItem.getQuantity());
-            
-        //     products.add(item);
-        // }
-        // return products;
-        return null;
-    }
 
     @Override
     public Cart getProductsByCartIdAndProductId(Long cartId, Long productId) {
