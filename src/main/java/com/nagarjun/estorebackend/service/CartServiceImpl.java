@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.entity.Product;
-import com.nagarjun.estorebackend.exception.ResourceExistException;
 import com.nagarjun.estorebackend.repository.CartItemRepository;
 import com.nagarjun.estorebackend.repository.CartRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
@@ -29,7 +28,11 @@ public class CartServiceImpl implements CartService{
         Cart cart = cartRepository.findById(cartId).get();
         Product product = productRepository.findById(productId).get();
         Optional<CartItem> cartItemEntity =  cartItemRepository.findByCartIdAndProductId(cartId, productId);
-        if(cartItemEntity.isPresent()) throw new ResourceExistException(productId, "Product");
+        if(cartItemEntity.isPresent()) {
+            CartItem existingCartItem =  cartItemEntity.get();
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + 1);
+            return cartItemRepository.save(existingCartItem);
+        }
         cartItem.setCart(cart);
         cartItem.setProduct(product);
         return cartItemRepository.save(cartItem);
