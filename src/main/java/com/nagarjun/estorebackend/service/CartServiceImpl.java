@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.service;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class CartServiceImpl implements CartService{
         Optional<CartItem> cartItemEntity =  cartItemRepository.findByCartIdAndProductId(cartId, productId);
         if(cartItemEntity.isPresent()) {
             CartItem existingCartItem =  cartItemEntity.get();
-            existingCartItem.setQuantity(existingCartItem.getQuantity() + 1);
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + cartItem.getQuantity());
             return cartItemRepository.save(existingCartItem);
         }
         cartItem.setCart(cart);
@@ -40,16 +41,16 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void deleteProduct(Long cartId, Long productId) {
-        // cartRepository.deleteByCartIdAndProductId(cartId, productId);
+        cartItemRepository.deleteByCartIdAndProductId(cartId, productId);
         
     }
 
 
     @Override
-    public Cart getProductsByCartIdAndProductId(Long cartId, Long productId) {
-        
-        // return (Cart) cartRepository.findByCartIdAndProductId(cartId, productId);
-        return null;
+    public List<CartItem> getProducts(Long userId) {
+
+        Long cartId = cartRepository.findByUserId(userId).get().getId();
+        return cartItemRepository.findByCartId(cartId).get();
     }
     
 }

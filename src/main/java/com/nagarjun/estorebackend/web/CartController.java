@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.web;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,10 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-    @GetMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<Cart> getProductsByCartIdAndProductId(@PathVariable Long cartId, @PathVariable Long productId){
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CartItem>> getProducts(@PathVariable Long userId){
 
-        return new ResponseEntity<>(cartService.getProductsByCartIdAndProductId(cartId, productId), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.getProducts(userId), HttpStatus.OK);
     }      
     
 }

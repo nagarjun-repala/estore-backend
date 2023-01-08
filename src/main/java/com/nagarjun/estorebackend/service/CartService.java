@@ -1,13 +1,12 @@
 package com.nagarjun.estorebackend.service;
 
-import com.nagarjun.estorebackend.entity.Cart;
+import java.util.List;
 import com.nagarjun.estorebackend.entity.CartItem;
-import com.nagarjun.estorebackend.exception.ResourceExistException;
 
 public interface CartService {
 
-    CartItem addProduct(Long cartId, Long productId, CartItem cartItem) throws ResourceExistException;
+    CartItem addProduct(Long cartId, Long productId, CartItem cartItem);
     void deleteProduct(Long cartId, Long productId);
-    Cart getProductsByCartIdAndProductId(Long cartId, Long productId);
+    List<CartItem> getProducts(Long userId);
     
 }
