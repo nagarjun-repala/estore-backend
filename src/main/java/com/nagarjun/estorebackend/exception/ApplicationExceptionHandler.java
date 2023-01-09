@@ -23,7 +23,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
         exception.getBindingResult().getAllErrors().forEach((error) -> errors.add(error.getDefaultMessage()));
         return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler({UserNotFoundException.class, OrderNotFoundException.class, ProductNotFoundException.class, ReviewNotFoundException.class, RoleNotFoundException.class, AddressNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, OrderNotFoundException.class, ProductNotFoundException.class, ReviewNotFoundException.class, RoleNotFoundException.class, AddressNotFoundException.class, CartNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException exception) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

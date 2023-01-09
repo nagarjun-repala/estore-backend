@@ -35,10 +35,21 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-    @GetMapping("/user/{userId}")
+    @GetMapping("/products/user/{userId}")
     public ResponseEntity<List<CartItem>> getProducts(@PathVariable Long userId){
 
         return new ResponseEntity<>(cartService.getProducts(userId), HttpStatus.OK);
-    }      
+    }
+    
+    @GetMapping("/{cartId}")
+    public ResponseEntity<Cart> getCart(@PathVariable Long cartId){
+
+        return new ResponseEntity<>(cartService.getCartById(cartId), HttpStatus.OK);
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Cart> getCartByUserId(@PathVariable Long userId){
+
+        return new ResponseEntity<>(cartService.getCartByUserId(userId), HttpStatus.OK);
+    }            
     
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.entity.Product;
+import com.nagarjun.estorebackend.exception.CartNotFoundException;
 import com.nagarjun.estorebackend.repository.CartItemRepository;
 import com.nagarjun.estorebackend.repository.CartRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
@@ -56,7 +57,9 @@ public class CartServiceImpl implements CartService{
     @Override
     public void deleteProduct(Long cartId, Long productId) {
         cartItemRepository.deleteByCartIdAndProductId(cartId, productId);
-        
+        Cart cart = cartRepository.findById(cartId).get();
+        cart.setTotal(cartTotal(cartId));
+        cartRepository.save(cart);
     }
 
 
@@ -75,5 +78,19 @@ public class CartServiceImpl implements CartService{
             cartTotal += item.getTotal();
         }
         return cartTotal;
-    }   
+    }
+
+    @Override
+    public Cart getCartById(Long cartId) {
+        Optional<Cart> cartEntity = cartRepository.findById(cartId);
+        if(cartEntity.isEmpty()) throw new CartNotFoundException(cartId, "Cart");
+        return cartEntity.get();
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        Optional<Cart> cartEntity = cartRepository.findByUserId(userId);
+        if(cartEntity.isEmpty()) throw new CartNotFoundException(userId, "User");
+        return cartEntity.get();
+    } 
 }
