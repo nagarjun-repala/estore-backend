@@ -37,14 +37,20 @@ public class CartServiceImpl implements CartService{
             existingCartItem.setPrice(productPrice);
             existingCartItem.setQuantity(totalQuantity);
             existingCartItem.setTotal(totalPrice);
-            return cartItemRepository.save(existingCartItem);
+            CartItem savedExistingCartItem = cartItemRepository.save(existingCartItem);
+            cart.setTotal(cartTotal(cartId));
+            cartRepository.save(cart);
+            return savedExistingCartItem;
         }
         Integer totalPrice = cartItem.getQuantity() * productPrice;
         cartItem.setPrice(totalPrice);
         cartItem.setCart(cart);
         cartItem.setProduct(product);
         cartItem.setTotal(totalPrice);
-        return cartItemRepository.save(cartItem);
+        CartItem savedCartItem = cartItemRepository.save(cartItem);
+        cart.setTotal(cartTotal(cartId));
+        cartRepository.save(cart);
+        return savedCartItem;
     }
 
     @Override
@@ -60,5 +66,14 @@ public class CartServiceImpl implements CartService{
         Long cartId = cartRepository.findByUserId(userId).get().getId();
         return cartItemRepository.findByCartId(cartId).get();
     }
-    
+
+    @Override
+    public Integer cartTotal(Long cartId) {
+        Integer cartTotal = 0;
+        List<CartItem> cartItems = cartItemRepository.findByCartId(cartId).get();
+        for (CartItem item : cartItems) {
+            cartTotal += item.getTotal();
+        }
+        return cartTotal;
+    }   
 }
