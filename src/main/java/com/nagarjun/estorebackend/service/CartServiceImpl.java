@@ -28,14 +28,22 @@ public class CartServiceImpl implements CartService{
 
         Cart cart = cartRepository.findById(cartId).get();
         Product product = productRepository.findById(productId).get();
+        Integer productPrice = product.getPrice();
         Optional<CartItem> cartItemEntity =  cartItemRepository.findByCartIdAndProductId(cartId, productId);
         if(cartItemEntity.isPresent()) {
             CartItem existingCartItem =  cartItemEntity.get();
-            existingCartItem.setQuantity(existingCartItem.getQuantity() + cartItem.getQuantity());
+            Integer totalQuantity = existingCartItem.getQuantity() + cartItem.getQuantity();
+            Integer totalPrice = totalQuantity * productPrice;
+            existingCartItem.setPrice(productPrice);
+            existingCartItem.setQuantity(totalQuantity);
+            existingCartItem.setTotal(totalPrice);
             return cartItemRepository.save(existingCartItem);
         }
+        Integer totalPrice = cartItem.getQuantity() * productPrice;
+        cartItem.setPrice(totalPrice);
         cartItem.setCart(cart);
         cartItem.setProduct(product);
+        cartItem.setTotal(totalPrice);
         return cartItemRepository.save(cartItem);
     }
 

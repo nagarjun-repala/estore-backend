@@ -23,7 +23,7 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<CartItem> createAddress(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody CartItem cartItem){
+    public ResponseEntity<CartItem> addProduct(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody CartItem cartItem){
 
         return new ResponseEntity<>(cartService.addProduct(cartId, productId, cartItem), HttpStatus.CREATED);
     }

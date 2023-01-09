@@ -43,4 +43,12 @@ public class CartItem {
     @Column
     private Integer quantity;
 
+    @NonNull
+    @Column
+    private Integer total=null;
+
+    @NonNull
+    @Column
+    private Integer price=null;
+
 }
