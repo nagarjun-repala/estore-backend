@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.entity.Product;
-import com.nagarjun.estorebackend.exception.CartNotFoundException;
+import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.CartItemRepository;
 import com.nagarjun.estorebackend.repository.CartRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
@@ -83,14 +85,14 @@ public class CartServiceImpl implements CartService{
     @Override
     public Cart getCartById(Long cartId) {
         Optional<Cart> cartEntity = cartRepository.findById(cartId);
-        if(cartEntity.isEmpty()) throw new CartNotFoundException(cartId, "Cart");
+        if(cartEntity.isEmpty()) throw new ResourceNotFoundException(cartId, Constants.CART);
         return cartEntity.get();
     }
 
     @Override
     public Cart getCartByUserId(Long userId) {
         Optional<Cart> cartEntity = cartRepository.findByUserId(userId);
-        if(cartEntity.isEmpty()) throw new CartNotFoundException(userId, "User");
+        if(cartEntity.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER);
         return cartEntity.get();
     } 
 }

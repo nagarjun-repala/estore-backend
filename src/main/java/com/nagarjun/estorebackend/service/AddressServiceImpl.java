@@ -4,9 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+
+import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.User;
-import com.nagarjun.estorebackend.exception.AddressNotFoundException;
+import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.AddressRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
 
@@ -22,7 +24,7 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public Address getAddress(Long addressId) {
         Optional<Address> addressEntity = addressRepository.findById(addressId);
-        if(addressEntity.isEmpty()) throw new AddressNotFoundException(addressId);
+        if(addressEntity.isEmpty()) throw new ResourceNotFoundException(addressId, Constants.ADDRESS);
         return addressEntity.get();
     }
 
@@ -42,7 +44,7 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public List<Address> getAddressesByUserId(Long userId) {
         List<Address> addresses = addressRepository.findAllByUserId(userId).get();
-        if(addresses.isEmpty()) throw new AddressNotFoundException(userId, "user");
+        if(addresses.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER);
         return addresses;
     }
     
