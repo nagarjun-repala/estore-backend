@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.Review;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.ProductNotFoundException;
-import com.nagarjun.estorebackend.exception.ReviewNotFoundException;
+import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.ReviewRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
@@ -30,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService{
     public Review getReview(Long reviewId) {
 
         Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
-        if(reviewEntity.isEmpty()) throw new ReviewNotFoundException(reviewId);
+        if(reviewEntity.isEmpty()) throw new ResourceNotFoundException(reviewId, Constants.REVIEW);
         return reviewEntity.get();
     }
     
@@ -40,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService{
         Optional<Product> productEntity = productRepository.findById(productId);
         if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);
         List<Review> reviews = reviewRepository.findByProductId(productId).get();
-        if(reviews.isEmpty()) throw new ReviewNotFoundException(productId, "Product");
+        if(reviews.isEmpty()) throw new ResourceNotFoundException(productId, Constants.PRODUCT);
         return reviews;
     }    
 
@@ -58,7 +59,7 @@ public class ReviewServiceImpl implements ReviewService{
     public Review updateReview(Long reviewId, Review review) {
 
         Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
-        if(reviewEntity.isEmpty()) throw new ReviewNotFoundException(reviewId);
+        if(reviewEntity.isEmpty()) throw new ResourceNotFoundException(reviewId, Constants.REVIEW);
         Review updateReview  = reviewEntity.get();
         updateReview.setDescription(review.getDescription());
         updateReview.setRating(review.getRating());

@@ -6,11 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
-import com.nagarjun.estorebackend.exception.OrderNotFoundException;
+import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.AddressRepository;
 import com.nagarjun.estorebackend.repository.OrderRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
@@ -36,7 +37,7 @@ public class OrderServiceImpl implements OrderService{
     public Order getOrderById(Long orderId) {
         
         Optional<Order> orderEntity = orderRepository.findById(orderId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
+        if(orderEntity.isEmpty()) throw new ResourceNotFoundException(orderId, Constants.ORDER);
         return orderEntity.get();
     }
 
@@ -61,7 +62,7 @@ public class OrderServiceImpl implements OrderService{
     public Order updateOrder(Long orderId, Order order) {
 
         Optional<Order> orderEntity = orderRepository.findById(orderId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(orderId);
+        if(orderEntity.isEmpty()) throw new ResourceNotFoundException(orderId, Constants.ORDER);
         Order updateOrder = orderEntity.get();
         updateOrder.setUpdatedOn(LocalDateTime.now());
         updateOrder.setQuantity(order.getQuantity());
@@ -84,7 +85,7 @@ public class OrderServiceImpl implements OrderService{
     public Order getOrderByUserIdAndProductId(Long userId, Long productId) {
         
         Optional<Order> orderEntity = orderRepository.findByUserIdAndProductId(userId, productId);
-        if(orderEntity.isEmpty()) throw new OrderNotFoundException(userId, productId);
+        if(orderEntity.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER, productId, Constants.PRODUCT);
         return orderEntity.get();
     }    
 
@@ -92,7 +93,7 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> getOrdersByUserId(Long userId) {
         
        List<Order> orders = orderRepository.findAllByUserId(userId).get();
-        if(orders.isEmpty()) throw new OrderNotFoundException(userId, "User");        
+        if(orders.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER);        
         return orders;
     }       
 
@@ -100,7 +101,7 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> getOrdersByProductId(Long productId) {
 
         List<Order> orders = orderRepository.findAllByProductId(productId).get();
-        if(orders.isEmpty()) throw new OrderNotFoundException(productId, "Product");        
+        if(orders.isEmpty()) throw new ResourceNotFoundException(productId, Constants.PRODUCT);        
         return orders;
     }
 
@@ -108,7 +109,7 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> getOrdersByAddressId(Long addressId) {
 
         List<Order> orders = orderRepository.findAllByAddressId(addressId).get();
-        if(orders.isEmpty()) throw new OrderNotFoundException(addressId, "Address");        
+        if(orders.isEmpty()) throw new ResourceNotFoundException(addressId, Constants.ADDRESS);        
         return orders;
     }
 
