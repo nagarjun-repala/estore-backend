@@ -12,5 +12,6 @@ public class SecurityConstants {
     public static final String CONTENT_TYPE = "application/json";
     public static final String CHAR_ENCOCDE = "UTF-8";
     public static final String ROLE_ADMIN = "ADMIN";
-    public static final String ROLE_USER = "USER";    
+    public static final String ROLE_USER = "USER";
+    public static final String USER_CART_PATH = "/cart/*/product/*";
 }
