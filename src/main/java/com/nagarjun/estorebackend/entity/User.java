@@ -66,7 +66,7 @@ public class User {
     private List<Order> orders;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "users", fetch= FetchType.EAGER)
+    @ManyToMany(mappedBy = "users", fetch= FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Role> roles;
 
     @JsonIgnore

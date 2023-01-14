@@ -25,18 +25,19 @@ public class SecurityConfig {
 
         authenticationFilter.setFilterProcessesUrl(SecurityConstants.LOGIN_PATH);
         http
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
-                .antMatchers(HttpMethod.DELETE, SecurityConstants.USER_CART_PATH).hasAnyAuthority(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
-                .antMatchers(HttpMethod.DELETE).hasAuthority(SecurityConstants.ROLE_ADMIN)
-                .antMatchers(HttpMethod.GET).hasAnyAuthority(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
-                .addFilter(authenticationFilter)
-                .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .csrf().disable()
+            .authorizeHttpRequests()
+            .antMatchers(SecurityConstants.ROLE_PATH).hasAuthority(SecurityConstants.ROLE_ADMIN)
+            .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
+            .antMatchers(HttpMethod.DELETE, SecurityConstants.USER_CART_PATH).hasAnyAuthority(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
+            .antMatchers(HttpMethod.DELETE).hasAuthority(SecurityConstants.ROLE_ADMIN)
+            .antMatchers(HttpMethod.GET).hasAnyAuthority(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
+            .anyRequest().authenticated()
+            .and()
+            .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
+            .addFilter(authenticationFilter)
+            .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
 }

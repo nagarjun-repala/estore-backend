@@ -5,14 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import com.nagarjun.estorebackend.entity.Role;
+import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.RoleNotFoundException;
 import com.nagarjun.estorebackend.repository.RoleRepository;
+import com.nagarjun.estorebackend.repository.UserRepository;
 
 @Service
 public class RoleServiceImpl implements RoleService{
 
     @Autowired
     private RoleRepository roleRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public Role getRoleById(Long roleId) {
@@ -44,6 +49,31 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public List<Role> getRoles() {
 		return (List<Role>) roleRepository.findAll();
+	}
+
+	@Override
+	public Role getRoleByName(String roleName) {
+		
+		return roleRepository.findByName(roleName).get();
+	}
+
+	@Override
+	public Role assignRole(Long userId, Role roleName) {
+
+		User user = userRepository.findById(userId).get();
+		Role role = roleRepository.findByName(roleName.getName()).get();
+		user.getRoles().add(role);
+		userRepository.save(user);
+		return role;
+	}
+
+	@Override
+	public void unassignRole(Long userId, String roleName) {
+
+		User user = userRepository.findById(userId).get();
+		Role role = roleRepository.findByName(roleName).get();
+		user.getRoles().remove(role);
+		userRepository.save(user);
 	}
 
 }
