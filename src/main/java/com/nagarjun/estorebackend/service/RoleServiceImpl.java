@@ -62,8 +62,8 @@ public class RoleServiceImpl implements RoleService{
 
 		User user = userRepository.findById(userId).get();
 		Role role = roleRepository.findByName(roleName.getName()).get();
-		user.getRoles().add(role);
-		userRepository.save(user);
+		role.getUsers().add(user);
+		roleRepository.save(role);
 		return role;
 	}
 
@@ -72,8 +72,8 @@ public class RoleServiceImpl implements RoleService{
 
 		User user = userRepository.findById(userId).get();
 		Role role = roleRepository.findByName(roleName).get();
-		user.getRoles().remove(role);
-		userRepository.save(user);
+		role.getUsers().remove(user);
+		roleRepository.save(role);
 	}
 
 }
