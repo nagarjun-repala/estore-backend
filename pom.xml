@@ -14,7 +14,7 @@
 	<name>estore-backend</name>
 	<description>E-store</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 
