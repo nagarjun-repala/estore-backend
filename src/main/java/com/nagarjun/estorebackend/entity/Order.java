@@ -1,6 +1,9 @@
 package com.nagarjun.estorebackend.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,9 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Range;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -28,20 +30,13 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Product product;
+    private List<CartItem> cartItems;
 
     @NonNull
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
-
-    @Range(min=0, message = "Min: 0")
-    @NotNull(message = "Price cannot be blank")    
-    @NonNull
-    @Column
-    private Integer quantity;
 
     @NonNull
     @Column(name = "updated_on", nullable = false)
@@ -55,5 +50,9 @@ public class Order {
     @ManyToOne(optional = false)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
+
+    @NonNull
+    @Column
+    private Integer total;
     
 }

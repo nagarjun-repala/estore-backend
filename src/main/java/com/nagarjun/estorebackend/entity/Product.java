@@ -43,10 +43,6 @@ public class Product {
     @NonNull
     @Column(nullable = false)
     private Integer price;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Order> orders;
     
     @JsonIgnore   
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

@@ -22,61 +22,12 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+   
 
+    @PostMapping("/cart/{cartId}/address/{addressId}")
+    public ResponseEntity<Order> createOrder(@PathVariable Long cartId, @PathVariable Long addressId) {
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderByOrderId(@PathVariable Long orderId) {
-
-        return new ResponseEntity<>(orderService.getOrderById(orderId), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.createOrder(cartId, addressId), HttpStatus.CREATED);
     }
-
-    @GetMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<Order> getOrderByUserIdAndProductId(@PathVariable Long userId, @PathVariable Long productId) {
-
-        return new ResponseEntity<>(orderService.getOrderByUserIdAndProductId(userId, productId), HttpStatus.OK);
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable Long userId) {
-
-        return new ResponseEntity<>(orderService.getOrdersByUserId(userId), HttpStatus.OK);
-    }       
-
-    @PostMapping("/user/{userId}/product/{productId}/address/{addressId}")
-    public ResponseEntity<Order> createOrder(@PathVariable Long userId, @PathVariable Long productId, @PathVariable Long addressId, @Valid @RequestBody Order order) {
-
-        return new ResponseEntity<>(orderService.createOrder(order, userId, productId, addressId), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{orderId}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long orderId, @Valid @RequestBody Order order) {
-        return new ResponseEntity<>(orderService.updateOrder(orderId, order), HttpStatus.OK);
-    }
-
-
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable Long orderId) {
-
-        orderService.deleteOrder(orderId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);     
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Order>> getOrders() {
-
-        return new ResponseEntity<>(orderService.getOrders(), HttpStatus.OK);
-    }
-
-    @GetMapping("/product/{productId}")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable Long productId) {
-
-        return new ResponseEntity<>(orderService.getOrdersByProductId(productId), HttpStatus.OK);
-    }
-    
-    @GetMapping("/address/{addressId}")
-    public ResponseEntity<List<Order>> getOrdersByAddressId(@PathVariable Long addressId) {
-
-        return new ResponseEntity<>(orderService.getOrdersByAddressId(addressId), HttpStatus.OK);
-    }      
 
 }

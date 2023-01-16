@@ -7,9 +7,5 @@ import com.nagarjun.estorebackend.entity.Order;
 
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    Optional<Order> findByUserIdAndProductId(Long userId, Long productId);
-    Optional <List<Order>> findAllByUserId(Long userId);
-    Optional <List<Order>> findAllByProductId(Long productId);
-    Optional <List<Order>> findAllByAddressId(Long addressId);
     
 }

@@ -51,4 +51,8 @@ public class CartItem {
     @Column
     private Integer price=null;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;    
+
 }

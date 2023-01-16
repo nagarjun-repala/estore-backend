@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         
         Cart cart = new Cart();
+        cart.setTotal(0);
         Role role = roleRepository.findById(SecurityConstants.DEFAULT_ROLE).get();    
         user.setCreatedOn(GlobalMethods.dateTimeFormatter(LocalDateTime.now()));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

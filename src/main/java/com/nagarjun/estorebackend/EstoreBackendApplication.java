@@ -69,6 +69,7 @@ public class EstoreBackendApplication implements CommandLineRunner{
 		for (User user : users) {
 			Cart cart = new Cart();
 			cart.setUser(user);
+			cart.setTotal(0);
 			if(user.getUsername() == "admin"){
 				adminRole.getUsers().add(user);
 			}
