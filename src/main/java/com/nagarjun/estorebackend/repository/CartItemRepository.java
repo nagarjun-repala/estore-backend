@@ -12,4 +12,6 @@ public interface CartItemRepository extends CrudRepository<CartItem, Long> {
     @Transactional
     void deleteByCartIdAndProductId(Long cartId, Long productId);
     Optional <List<CartItem>> findByCartId(Long cartId);
+    @Transactional
+    void deleteAllByCartId(Long cartId);
 }

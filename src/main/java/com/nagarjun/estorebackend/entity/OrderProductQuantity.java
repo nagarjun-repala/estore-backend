@@ -22,28 +22,33 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cart_item")
-public class CartItem {
-    
+@Table(name = "order_product_quantity")
+public class OrderProductQuantity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    private Long id;    
+    
     @JsonIgnore
     @ManyToOne(optional = false)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
     @NonNull
-    @Column
+    @Column(nullable = false)
     private Integer quantity;
+    
+    @NonNull
+    @Column(nullable = false)
+    private Integer price;
 
-    public Integer getTotal() {
-        return this.getProduct().getPrice() * quantity;
-    }
+    @NonNull
+    @Column(nullable = false)
+    private Integer total;
+
 }
