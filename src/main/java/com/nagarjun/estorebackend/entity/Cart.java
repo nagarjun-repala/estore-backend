@@ -4,7 +4,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +33,7 @@ public class Cart {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cart", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
     private List<CartItem> cartItems;
 
     @NonNull
