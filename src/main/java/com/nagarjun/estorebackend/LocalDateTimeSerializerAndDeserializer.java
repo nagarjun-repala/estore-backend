@@ -20,7 +20,6 @@ public class LocalDateTimeSerializerAndDeserializer implements JsonSerializer <L
     @Override
     public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
     throws JsonParseException {
-        System.out.println("me");
         return LocalDateTime.parse(json.getAsString(),
         GlobalMethods.dateTimeFormatterPattern());
     }
