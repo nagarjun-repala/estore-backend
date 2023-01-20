@@ -1,17 +1,18 @@
 package com.nagarjun.estorebackend;
 
 import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.boot.CommandLineRunner;
+import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.repository.AddressRepository;
 import com.nagarjun.estorebackend.repository.CartRepository;
 import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.RoleRepository;
@@ -32,6 +33,9 @@ public class EstoreBackendApplication implements CommandLineRunner{
 
 	@Autowired
 	private CartRepository cartRepository;
+
+	@Autowired
+	private AddressRepository addressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EstoreBackendApplication.class, args);
@@ -66,16 +70,20 @@ public class EstoreBackendApplication implements CommandLineRunner{
 			new User("test", "test", "test", bCryptPasswordEncoder().encode("test"), "test@test.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()))
 		};
 
+		Address address = new Address(508630L, "Hightech city", "Hyderabad", "Telangana", 99999999999L);
+
 		for (User user : users) {
 			Cart cart = new Cart();
 			cart.setUser(user);
 			cart.setTotal(0);
+			address.setUser(user);
 			if(user.getUsername() == "admin"){
 				adminRole.getUsers().add(user);
 			}
 			userRole.getUsers().add(user);
 			userRepository.save(user);
 			cartRepository.save(cart);
+			addressRepository.save(address);
 		}
 		roleRepository.save(adminRole);
 		roleRepository.save(userRole);
