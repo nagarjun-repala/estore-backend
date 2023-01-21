@@ -14,7 +14,7 @@ import com.nagarjun.estorebackend.service.CartService;
 
 @RestController
 @RequestMapping("/admin/cart")
-public class CartController {
+public class CartControllerAdmin {
 
     @Autowired
     private CartService cartService;

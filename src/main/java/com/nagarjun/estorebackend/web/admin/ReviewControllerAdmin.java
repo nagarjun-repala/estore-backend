@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/admin/review")
-public class ReviewController {
+public class ReviewControllerAdmin {
 
     @Autowired
     private ReviewService reviewService;

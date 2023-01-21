@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/admin/user")
-public class UserController {
+public class UserControllerAdmin {
 
     @Autowired
     private UserService userService;

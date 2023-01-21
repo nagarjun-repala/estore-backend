@@ -20,7 +20,7 @@ import com.nagarjun.estorebackend.service.RoleService;
 
 @RestController
 @RequestMapping("/admin/role")
-public class RoleController {
+public class RoleControllerAdmin {
     
     @Autowired
     private RoleService roleService;

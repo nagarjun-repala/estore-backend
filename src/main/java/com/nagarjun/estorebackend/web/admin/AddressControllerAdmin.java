@@ -15,7 +15,7 @@ import com.nagarjun.estorebackend.service.AddressService;
 
 @RestController
 @RequestMapping("/admin/address")
-public class AddressController {
+public class AddressControllerAdmin {
 
     @Autowired
     private AddressService addressService;

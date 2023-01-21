@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/admin/product")
-public class ProductController {
+public class ProductControllerAdmin {
 
     @Autowired
     private ProductService productService;
