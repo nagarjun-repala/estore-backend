@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
@@ -57,6 +58,8 @@ public class OrderServiceImpl implements OrderService{
         order.setUser(user);
         order.setTotal(cart.getTotal());
         order.setAddress(address);
+        order.setUpdatedOn(LocalDateTime.now());
+        order.setStatus(Constants.SUCCESS);
         Order savedOrder = orderRepository.save(order);
         updateOrderProductQuantity(savedOrder, cart);
         return savedOrder;
@@ -78,6 +81,29 @@ public class OrderServiceImpl implements OrderService{
         }
         orderProductQuantityRepository.saveAll(orderProductQuantities);
         cartItemRepository.deleteAllByCartId(cart.getId());
+    }
+
+    @Override
+    public List<Order> getOrders(Long userId) {
+        // TODO Auto-generated method stub
+        return orderRepository.findByUserId(userId).get();
+    }
+
+    @Override
+    public void deleteOrder(Long orderId) {
+        // TODO Auto-generated method stub
+        orderRepository.deleteById(orderId);
+        
+    }
+
+    @Override
+    public Order updateOrder(Long orderId, Long addressId) {
+        // TODO Auto-generated method stub
+        Order order = orderRepository.findById(orderId).get();
+        Address address = addressRepository.findById(addressId).get();
+        order.setAddress(address);
+        order.setUpdatedOn(LocalDateTime.now());
+        return orderRepository.save(order);
     }
 
 }

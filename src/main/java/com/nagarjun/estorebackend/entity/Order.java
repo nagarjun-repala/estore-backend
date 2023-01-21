@@ -37,6 +37,10 @@ public class Order {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
+    @NonNull
+    @Column(name = "updated_on", nullable = false)
+    private LocalDateTime updatedOn;    
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
@@ -62,5 +66,9 @@ public class Order {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     @JsonIgnore
     private Address address;
-    
+
+    @NonNull
+    @Column
+    private String status;
+
 }
