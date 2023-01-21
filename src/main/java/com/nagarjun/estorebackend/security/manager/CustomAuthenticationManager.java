@@ -35,7 +35,7 @@ public class CustomAuthenticationManager implements AuthenticationManager{
             throw new BadCredentialsException("You provided an incorrect password");
         }
 
-        return new UsernamePasswordAuthenticationToken(user.getId(), authentication.getCredentials().toString(), getAuthorities(user));
+        return new UsernamePasswordAuthenticationToken(user.getUsername(), authentication.getCredentials().toString(), getAuthorities(user));
     }
 
     private ArrayList<GrantedAuthority> getAuthorities(User user) {
