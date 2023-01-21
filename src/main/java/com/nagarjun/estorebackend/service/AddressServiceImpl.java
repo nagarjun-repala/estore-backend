@@ -9,6 +9,7 @@ import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
+import com.nagarjun.estorebackend.exception.UserNotFoundException;
 import com.nagarjun.estorebackend.repository.AddressRepository;
 import com.nagarjun.estorebackend.repository.UserRepository;
 
@@ -34,31 +35,36 @@ public class AddressServiceImpl implements AddressService{
         
     }
 
-    @Override
-    public Address createAddress(Address address, Long userId) {
-        // TODO Auto-generated method stub        
-        User user = userRepository.findById(userId).get();
-        address.setUser(user);
-        return addressRepository.save(address);
-    }
+    // @Override
+    // public Address createAddress(Address address, Long userId) {
+    //     // TODO Auto-generated method stub        
+    //     User user = userRepository.findById(userId).get();
+    //     address.setUser(user);
+    //     return addressRepository.save(address);
+    // }
 
     @Override
-    public List<Address> getAddressesByUserId(Long userId) {
-        List<Address> addresses = addressRepository.findAllByUserId(userId).get();
-        if(addresses.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER);
-        return addresses;
+    public List<Address> getAddresses(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isEmpty()) throw new UserNotFoundException(userId);
+        return addressRepository.findAllByUserId(userId);
     }
 
     @Override
     public Address createAddress(Address address, String username) {
         // TODO Auto-generated method stub
-        return null;
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()) throw new UserNotFoundException(username);
+        address.setUser(user.get());
+        return addressRepository.save(address);
     }
 
     @Override
-    public List<Address> getAddressesByUserId(String username) {
+    public List<Address> getAddresses(String username) {
         // TODO Auto-generated method stub
-        return null;
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()) throw new UserNotFoundException(username); 
+        return addressRepository.findAllByUserId(user.get().getId());
     }
     
 }

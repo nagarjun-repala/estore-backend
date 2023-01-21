@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,10 +37,10 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/user/{userId}")
-    public ResponseEntity<Address> createAddress(@PathVariable Long userId, @RequestBody Address address){
+    @PostMapping
+    public ResponseEntity<Address> createAddress(@AuthenticationPrincipal String username, @RequestBody Address address){
 
-        return new ResponseEntity<>(addressService.createAddress(address, userId), HttpStatus.CREATED);
+        return new ResponseEntity<>(addressService.createAddress(address, username), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/{userId}")
