@@ -24,7 +24,7 @@ public class AddressController {
     private AddressService addressService;
 
     @GetMapping("/{addressId}")
-    public ResponseEntity<Address> getOrderByOrderId(@PathVariable Long addressId) {
+    public ResponseEntity<Address> getAddress(@PathVariable Long addressId) {
 
         return new ResponseEntity<>(addressService.getAddress(addressId), HttpStatus.OK);
     }

@@ -44,6 +44,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Order createOrder(Long cartId, Long addressId) {
+        // TODO Auto-generated method stub        
         Order order = new Order();
         Cart cart = cartRepository.findById(cartId).get();
         Address address = addressRepository.findById(addressId).get();
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     private void updateOrderProductQuantity(Order order, Cart cart){
-
+        // TODO Auto-generated method stub
         List<OrderProductQuantity> orderProductQuantities = new ArrayList<OrderProductQuantity>();
         List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId()).get();
         for (CartItem cartItem : cartItems) {
@@ -104,6 +105,12 @@ public class OrderServiceImpl implements OrderService{
         order.setAddress(address);
         order.setUpdatedOn(LocalDateTime.now());
         return orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> getOrders(String username) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

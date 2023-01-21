@@ -6,6 +6,7 @@ import com.nagarjun.estorebackend.entity.Review;
 public interface ReviewService {
 
     Review getReview(Long reviewId);
+    List<Review> getReviewsByUsername(String username);
     List<Review> getReviewsByProductId(Long productId);
     Review createReview(Review review, Long userId, Long productId);
     Review updateReview(Long reviewId, Review review);

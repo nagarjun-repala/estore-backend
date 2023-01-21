@@ -47,7 +47,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Review createReview(Review review, Long userId, Long productId) {
-
+        // TODO Auto-generated method stub
         User user = userRepository.findById(userId).get();
         Product product = productRepository.findById(productId).get();
         review.setProduct(product);
@@ -76,6 +76,12 @@ public class ReviewServiceImpl implements ReviewService{
     public List<Review> getReviews() {
 
         return (List<Review>)reviewRepository.findAll();
+    }
+
+    @Override
+    public List<Review> getReviewsByUsername(String username) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

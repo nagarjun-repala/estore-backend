@@ -48,18 +48,19 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public List<Role> getRoles() {
+		// TODO Auto-generated method stub
 		return (List<Role>) roleRepository.findAll();
 	}
 
 	@Override
 	public Role getRoleByName(String roleName) {
-		
+		// TODO Auto-generated method stub
 		return roleRepository.findByName(roleName).get();
 	}
 
 	@Override
 	public Role assignRole(Long userId, Role roleName) {
-
+        // TODO Auto-generated method stub
 		User user = userRepository.findById(userId).get();
 		Role role = roleRepository.findByName(roleName.getName()).get();
 		role.getUsers().add(user);
@@ -69,7 +70,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public void unassignRole(Long userId, String roleName) {
-
+        // TODO Auto-generated method stub
 		User user = userRepository.findById(userId).get();
 		Role role = roleRepository.findByName(roleName).get();
 		role.getUsers().remove(user);

@@ -28,7 +28,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public CartItem addProduct(Long cartId, Long productId, CartItem cartItem) {
-
+        // TODO Auto-generated method stub
         Cart cart = cartRepository.findById(cartId).get();
         Product product = productRepository.findById(productId).get();
         Optional<CartItem> cartItemEntity =  cartItemRepository.findByCartIdAndProductId(cartId, productId);
@@ -51,6 +51,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void deleteProduct(Long cartId, Long productId) {
+        // TODO Auto-generated method stub        
         cartItemRepository.deleteByCartIdAndProductId(cartId, productId);
         Cart cart = cartRepository.findById(cartId).get();
         cart.setTotal(cartTotal(cartId));
@@ -60,13 +61,13 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public List<CartItem> getCartItems(Long userId) {
-
+        // TODO Auto-generated method stub
         Long cartId = cartRepository.findByUserId(userId).get().getId();
         return cartItemRepository.findByCartId(cartId).get();
     }
 
-    @Override
     public Integer cartTotal(Long cartId) {
+        // TODO Auto-generated method stub        
         Integer cartTotal = 0;
         List<CartItem> cartItems = cartItemRepository.findByCartId(cartId).get();
         for (CartItem item : cartItems) {
@@ -87,5 +88,11 @@ public class CartServiceImpl implements CartService{
         Optional<Cart> cartEntity = cartRepository.findByUserId(userId);
         if(cartEntity.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER);
         return cartEntity.get();
+    }
+
+    @Override
+    public List<CartItem> getCartItems(String username) {
+        // TODO Auto-generated method stub
+        return null;
     } 
 }

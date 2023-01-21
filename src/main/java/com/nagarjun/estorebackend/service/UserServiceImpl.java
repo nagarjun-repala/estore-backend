@@ -66,18 +66,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        
+        // TODO Auto-generated method stub        
         return (List<User>)userRepository.findAll();
     }
 
     @Override
     public void deleteUser(Long id) {
+        // TODO Auto-generated method stub        
         userRepository.deleteById(id);
     }    
 
     @Override
     public User updateUser(Long userId, User user) {
-
+        // TODO Auto-generated method stub
         Optional<User> userEntity = userRepository.findById(userId);
         if(userEntity.isEmpty()) throw new UserNotFoundException(userId);    
         User updateUser = userEntity.get();
@@ -91,6 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delteUser(String username) {
+        // TODO Auto-generated method stub          
         userRepository.deleteUserByUsername(username);
     }
 }

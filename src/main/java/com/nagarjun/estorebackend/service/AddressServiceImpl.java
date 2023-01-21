@@ -36,6 +36,7 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public Address createAddress(Address address, Long userId) {
+        // TODO Auto-generated method stub        
         User user = userRepository.findById(userId).get();
         address.setUser(user);
         return addressRepository.save(address);
@@ -46,6 +47,18 @@ public class AddressServiceImpl implements AddressService{
         List<Address> addresses = addressRepository.findAllByUserId(userId).get();
         if(addresses.isEmpty()) throw new ResourceNotFoundException(userId, Constants.USER);
         return addresses;
+    }
+
+    @Override
+    public Address createAddress(Address address, String username) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Address> getAddressesByUserId(String username) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
