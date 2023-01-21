@@ -9,7 +9,7 @@ public interface CartService {
 
     CartItem addProduct(Long cartId, Long productId, CartItem cartItem);
     void deleteProduct(Long cartId, Long productId);
-    List<CartItem> getProducts(Long userId);
+    List<CartItem> getCartItems(Long userId);
     Integer cartTotal(Long cartId);
     Cart getCartById(Long cartId);
     Cart getCartByUserId(Long userId);

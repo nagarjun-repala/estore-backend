@@ -38,7 +38,7 @@ public class CartController {
     @GetMapping("/products/user/{userId}")
     public ResponseEntity<List<CartItem>> getProducts(@PathVariable Long userId){
 
-        return new ResponseEntity<>(cartService.getProducts(userId), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.getCartItems(userId), HttpStatus.OK);
     }
     
     @GetMapping("/{cartId}")
