@@ -35,7 +35,7 @@ public class AddressControllerAdmin {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Address>> getAddressesByUserId(@PathVariable Long userId){
-        return new ResponseEntity<>(addressService.getAddressesByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(addressService.getAddresses(userId), HttpStatus.OK);
     }
     
 }

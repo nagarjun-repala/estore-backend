@@ -35,24 +35,17 @@ public class AddressServiceImpl implements AddressService{
         
     }
 
-    // @Override
-    // public Address createAddress(Address address, Long userId) {
-    //     // TODO Auto-generated method stub        
-    //     User user = userRepository.findById(userId).get();
-    //     address.setUser(user);
-    //     return addressRepository.save(address);
-    // }
-
     @Override
     public List<Address> getAddresses(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty()) throw new UserNotFoundException(userId);
-        return addressRepository.findAllByUserId(userId);
+        List<Address> addresses = addressRepository.findAllByUserId(userId);
+        if(addresses.isEmpty()) throw new ResourceNotFoundException(userId, Constants.ADDRESS);
+        return addresses;
     }
 
     @Override
     public Address createAddress(Address address, String username) {
-        // TODO Auto-generated method stub
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isEmpty()) throw new UserNotFoundException(username);
         address.setUser(user.get());
@@ -61,10 +54,11 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public List<Address> getAddresses(String username) {
-        // TODO Auto-generated method stub
         Optional<User> user = userRepository.findByUsername(username);
-        if(user.isEmpty()) throw new UserNotFoundException(username); 
-        return addressRepository.findAllByUserId(user.get().getId());
+        if(user.isEmpty()) throw new UserNotFoundException(username);
+        List<Address> addresses = addressRepository.findAllByUserId(user.get().getId());
+        if(addresses.isEmpty()) throw new ResourceNotFoundException(user.get().getId(), Constants.ADDRESS);
+        return addresses;
     }
     
 }

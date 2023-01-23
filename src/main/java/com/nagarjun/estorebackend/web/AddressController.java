@@ -43,9 +43,9 @@ public class AddressController {
         return new ResponseEntity<>(addressService.createAddress(address, username), HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Address>> getAddressesByUserId(@PathVariable Long userId){
-        return new ResponseEntity<>(addressService.getAddressesByUserId(userId), HttpStatus.OK);
+    @GetMapping("/getAddresses")
+    public ResponseEntity<List<Address>> getAddressesByUserId(@AuthenticationPrincipal String username){
+        return new ResponseEntity<>(addressService.getAddresses(username), HttpStatus.OK);
     }
     
 }
