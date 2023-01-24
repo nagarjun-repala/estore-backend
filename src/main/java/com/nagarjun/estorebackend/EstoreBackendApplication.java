@@ -70,7 +70,7 @@ public class EstoreBackendApplication implements CommandLineRunner{
 			new User("test", "test", "test", bCryptPasswordEncoder().encode("test"), "test@test.com", GlobalMethods.dateTimeFormatter(LocalDateTime.now()))
 		};
 
-		Address address = new Address(508630L, "Hightech city", "Hyderabad", "Telangana", 99999999999L);
+		Address address = new Address(508630, "Hightech city", "Hyderabad", "Telangana", "99999999999");
 
 		for (User user : users) {
 			Cart cart = new Cart();
