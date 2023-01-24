@@ -28,6 +28,11 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
         ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(ResourceEmptyException.class)
+    public ResponseEntity<Object> handleResourceEmptyException(RuntimeException exception) {
+        ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }    
     @ExceptionHandler({ResourceExistException.class})
     public ResponseEntity<Object> handleResourceFoundException(RuntimeException exception) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
