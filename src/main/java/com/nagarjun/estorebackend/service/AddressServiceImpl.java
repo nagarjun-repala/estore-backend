@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.ResourceEmptyException;
 import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.exception.UserNotFoundException;
 import com.nagarjun.estorebackend.repository.AddressRepository;
@@ -40,7 +41,7 @@ public class AddressServiceImpl implements AddressService{
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty()) throw new UserNotFoundException(userId);
         List<Address> addresses = addressRepository.findAllByUserId(userId);
-        if(addresses.isEmpty()) throw new ResourceNotFoundException(userId, Constants.ADDRESS);
+        if(addresses.isEmpty()) throw new ResourceEmptyException(Constants.ADDRESS);
         return addresses;
     }
 
@@ -57,7 +58,7 @@ public class AddressServiceImpl implements AddressService{
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isEmpty()) throw new UserNotFoundException(username);
         List<Address> addresses = addressRepository.findAllByUserId(user.get().getId());
-        if(addresses.isEmpty()) throw new ResourceNotFoundException(user.get().getId(), Constants.ADDRESS);
+        if(addresses.isEmpty()) throw new ResourceEmptyException(Constants.ADDRESS);
         return addresses;
     }
     

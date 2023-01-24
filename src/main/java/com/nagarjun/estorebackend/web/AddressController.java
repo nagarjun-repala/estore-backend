@@ -2,6 +2,8 @@ package com.nagarjun.estorebackend.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +40,12 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@AuthenticationPrincipal String username, @RequestBody Address address){
+    public ResponseEntity<Address> createAddress(@AuthenticationPrincipal String username, @Valid @RequestBody Address address){
 
         return new ResponseEntity<>(addressService.createAddress(address, username), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAddresses")
+    @GetMapping("/listAddresses")
     public ResponseEntity<List<Address>> getAddressesByUserId(@AuthenticationPrincipal String username){
         return new ResponseEntity<>(addressService.getAddresses(username), HttpStatus.OK);
     }
