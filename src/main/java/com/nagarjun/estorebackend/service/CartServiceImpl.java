@@ -9,10 +9,10 @@ import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.entity.Product;
+import com.nagarjun.estorebackend.exception.ResourceEmptyException;
 import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.CartItemRepository;
 import com.nagarjun.estorebackend.repository.CartRepository;
-import com.nagarjun.estorebackend.repository.ProductRepository;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -21,16 +21,16 @@ public class CartServiceImpl implements CartService{
     private CartRepository cartRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private CartItemRepository cartItemRepository;
 
     @Autowired
-    private CartItemRepository cartItemRepository;
+    private ProductService productService;
 
     @Override
     public CartItem addProduct(Long cartId, Long productId, CartItem cartItem) {
-        // TODO Auto-generated method stub
-        Cart cart = cartRepository.findById(cartId).get();
-        Product product = productRepository.findById(productId).get();
+
+        Cart cart = getCartById(cartId);
+        Product product = productService.getProduct(productId);
         Optional<CartItem> cartItemEntity =  cartItemRepository.findByCartIdAndProductId(cartId, productId);
         if(cartItemEntity.isPresent()) {
             CartItem existingCartItem =  cartItemEntity.get();
@@ -51,9 +51,10 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void deleteProduct(Long cartId, Long productId) {
-        // TODO Auto-generated method stub        
-        cartItemRepository.deleteByCartIdAndProductId(cartId, productId);
-        Cart cart = cartRepository.findById(cartId).get();
+
+        Cart cart = getCartById(cartId);
+        Product product = productService.getProduct(productId);
+        cartItemRepository.deleteByCartIdAndProductId(cart.getId(), product.getId());
         cart.setTotal(cartTotal(cartId));
         cartRepository.save(cart);
     }
@@ -61,15 +62,18 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public List<CartItem> getCartItems(Long userId) {
-        // TODO Auto-generated method stub
-        Long cartId = cartRepository.findByUserId(userId).get().getId();
-        return cartItemRepository.findByCartId(cartId).get();
+        Cart cart = getCartById(userId);
+        List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId()).get();
+        if (cartItems.isEmpty()) throw new ResourceEmptyException(Constants.CART); 
+        return cartItems;
     }
 
     public Integer cartTotal(Long cartId) {
-        // TODO Auto-generated method stub        
+        // TODO Auto-generated method stub 
         Integer cartTotal = 0;
-        List<CartItem> cartItems = cartItemRepository.findByCartId(cartId).get();
+        Cart cart = getCartById(cartId);
+        List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId()).get();
+        if(cartItems.isEmpty()) throw new ResourceEmptyException(Constants.CART_ITEMS);
         for (CartItem item : cartItems) {
             cartTotal += item.getTotal();
         }
