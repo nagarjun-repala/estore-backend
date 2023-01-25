@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.nagarjun.estorebackend.dto.UserDto;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,9 @@ public class UserController {
     UserService userService;
     
     @GetMapping("/profile")
-    public ResponseEntity<User> findByUsername(@AuthenticationPrincipal String username) {
+    public ResponseEntity<UserDto> findByUsername(@AuthenticationPrincipal String username) {
 
-        return new ResponseEntity<>(userService.getUser(username), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserDto(username), HttpStatus.OK);
     }
   
     @PostMapping("/register")

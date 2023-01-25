@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.GlobalMethods;
+import com.nagarjun.estorebackend.dto.UserDto;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
@@ -92,5 +93,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delteUser(String username) {        
         userRepository.deleteUserByUsername(username);
+    }
+
+    @Override
+    public UserDto getUserDto(String username) {
+        UserDto userDto = new UserDto(getUser(username));
+        return userDto;
     }
 }
