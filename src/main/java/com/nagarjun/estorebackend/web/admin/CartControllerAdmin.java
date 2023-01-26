@@ -28,12 +28,12 @@ public class CartControllerAdmin {
     @GetMapping("/{cartId}")
     public ResponseEntity<Cart> getCart(@PathVariable Long cartId){
 
-        return new ResponseEntity<>(cartService.getCartById(cartId), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.getCart(cartId), HttpStatus.OK);
     }
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Cart> getCartByUserId(@PathVariable Long userId){
+    public ResponseEntity<Cart> getUserCart(@PathVariable Long userId){
 
-        return new ResponseEntity<>(cartService.getCartByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.getUserCart(userId), HttpStatus.OK);
     }            
     
 }

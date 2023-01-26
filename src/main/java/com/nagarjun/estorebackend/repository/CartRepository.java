@@ -8,5 +8,6 @@ import com.nagarjun.estorebackend.entity.Cart;
 public interface CartRepository extends CrudRepository<Cart, Long> {
 
     Optional<Cart> findByUserId(Long userId);
+    Optional<Cart> findByUsername(String username);
  
 }

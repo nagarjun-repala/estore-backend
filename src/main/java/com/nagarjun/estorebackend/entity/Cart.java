@@ -30,9 +30,9 @@ public class Cart {
     @JsonIgnore
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
     private List<CartItem> cartItems;
 

@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nagarjun.estorebackend.dto.CartDto;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
 import com.nagarjun.estorebackend.service.CartService;
@@ -22,16 +25,15 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<CartItem> addProduct(@PathVariable Long cartId, @PathVariable Long productId, @RequestBody CartItem cartItem){
+    @PostMapping("/product/{productId}")
+    public ResponseEntity<CartItem> addProduct(@AuthenticationPrincipal String username, @PathVariable Long productId, @RequestBody CartItem cartItem){
 
-        return new ResponseEntity<>(cartService.addProduct(cartId, productId, cartItem), HttpStatus.CREATED);
+        return new ResponseEntity<>(cartService.addProduct(username, productId, cartItem), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<Cart> deleteProduct(@PathVariable Long cartId, @PathVariable Long productId){
-        // TODO Auto-generated method stub 
-        cartService.deleteProduct(cartId, productId);
+    public ResponseEntity<Cart> deleteProduct(@AuthenticationPrincipal String username, @PathVariable Long productId){
+        cartService.deleteCartItem(username, productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
@@ -41,15 +43,10 @@ public class CartController {
         return new ResponseEntity<>(cartService.getCartItems(userId), HttpStatus.OK);
     }
     
-    @GetMapping("/{cartId}")
-    public ResponseEntity<Cart> getCart(@PathVariable Long cartId){
+    @GetMapping("/cartDetails")
+    public ResponseEntity<CartDto> getCart(@AuthenticationPrincipal String username){
 
-        return new ResponseEntity<>(cartService.getCartById(cartId), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.getCartDto(username), HttpStatus.OK);
     }
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Cart> getCartByUserId(@PathVariable Long userId){
-
-        return new ResponseEntity<>(cartService.getCartByUserId(userId), HttpStatus.OK);
-    }            
     
 }
