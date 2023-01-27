@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nagarjun.estorebackend.entity.Address;
+import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.AddressService;
 
 @RestController
@@ -40,14 +41,14 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@AuthenticationPrincipal String username, @Valid @RequestBody Address address){
+    public ResponseEntity<Address> createAddress(@AuthenticationPrincipal CustomPrincipal principal, @Valid @RequestBody Address address){
 
-        return new ResponseEntity<>(addressService.createAddress(address, username), HttpStatus.CREATED);
+        return new ResponseEntity<>(addressService.createAddress(address, principal.getUsername()), HttpStatus.CREATED);
     }
 
     @GetMapping("/listAddresses")
-    public ResponseEntity<List<Address>> getAddressesByUserId(@AuthenticationPrincipal String username){
-        return new ResponseEntity<>(addressService.getAddresses(username), HttpStatus.OK);
+    public ResponseEntity<List<Address>> getAddressesByUserId(@AuthenticationPrincipal CustomPrincipal principal){
+        return new ResponseEntity<>(addressService.getAddresses(principal.getUsername()), HttpStatus.OK);
     }
     
 }

@@ -26,14 +26,8 @@ public class UserController {
     @Autowired
     UserService userService;
     
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/profile")
     public ResponseEntity<UserDto> findByUsername(@AuthenticationPrincipal CustomPrincipal principal) {
-
-        System.out.println(principal);
-        System.out.println(principal.getName());
-        System.out.println(principal.getUsername());
-        System.out.println(principal.getRoles());
         return new ResponseEntity<>(userService.getUserDto(principal.getUsername()), HttpStatus.OK);
     }
   

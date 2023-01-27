@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.dto.CartDto;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
+import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.CartService;
 
 @RestController
@@ -26,14 +27,14 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/product/{productId}")
-    public ResponseEntity<CartItem> addProduct(@AuthenticationPrincipal String username, @PathVariable Long productId, @RequestBody CartItem cartItem){
+    public ResponseEntity<CartItem> addProduct(@AuthenticationPrincipal CustomPrincipal principal, @PathVariable Long productId, @RequestBody CartItem cartItem){
 
-        return new ResponseEntity<>(cartService.addProduct(username, productId, cartItem), HttpStatus.CREATED);
+        return new ResponseEntity<>(cartService.addProduct(principal.getUsername(), productId, cartItem), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{cartId}/product/{productId}")
-    public ResponseEntity<Cart> deleteProduct(@AuthenticationPrincipal String username, @PathVariable Long productId){
-        cartService.deleteCartItem(username, productId);
+    public ResponseEntity<Cart> deleteProduct(@AuthenticationPrincipal CustomPrincipal principal, @PathVariable Long productId){
+        cartService.deleteCartItem(principal.getUsername(), productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
@@ -44,9 +45,9 @@ public class CartController {
     }
     
     @GetMapping("/cartDetails")
-    public ResponseEntity<CartDto> getCart(@AuthenticationPrincipal String username){
+    public ResponseEntity<CartDto> getCart(@AuthenticationPrincipal CustomPrincipal principal){
 
-        return new ResponseEntity<>(cartService.getCartDto(username), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.getCartDto(principal.getUsername()), HttpStatus.OK);
     }
     
 }
