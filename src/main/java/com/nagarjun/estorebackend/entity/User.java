@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.entity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -24,7 +25,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -30,7 +30,6 @@ public class Cart {
     @JsonIgnore
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
@@ -40,4 +39,7 @@ public class Cart {
     @Column
     private Integer total;
 
+    @NonNull
+    @Column
+    private String username;
 }

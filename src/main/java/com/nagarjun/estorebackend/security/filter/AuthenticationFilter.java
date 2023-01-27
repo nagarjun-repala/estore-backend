@@ -1,8 +1,9 @@
 package com.nagarjun.estorebackend.security.filter;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.security.SecurityConstants;
 import com.nagarjun.estorebackend.security.manager.CustomAuthenticationManager;
+import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -51,9 +52,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
 
+                CustomPrincipal customPrincipal = (CustomPrincipal) authResult.getPrincipal();
                 String token = JWT.create()
-                .withSubject(authResult.getName())
-                .withArrayClaim("AUTHORITIES", getRolesForUser(authResult))
+                .withSubject(customPrincipal.getName())
+                .withClaim("ROLES", customPrincipal.getRoles())
+                .withClaim("AUTHORITIES", customPrincipal.getRoles())
+                .withClaim("ID", customPrincipal.getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign((Algorithm.HMAC512(SecurityConstants.SECRET_KEY)));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);                
@@ -61,15 +65,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     }
     //Authorization : Bearer JWTTOKEN
 
-    private String[] getRolesForUser(Authentication authResult) {
+    // private List<String> getRolesForUser(CustomPrincipal customPrincipal) {
 
-        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-        String[] roles = new String[authorities.size()];
-        int i = 0;
-        for (GrantedAuthority grantedAuthority : authResult.getAuthorities()) {
-            roles[i] = grantedAuthority.toString();
-            i++;
-        }
-        return roles;
-    }
+    //     List<String> roles = new ArrayList<>();
+    //     for (GrantedAuthority grantedAuthority : authResult.getAuthorities()) {
+    //         roles.add(grantedAuthority.toString());
+    //     }
+    //     return roles;
+    // }
 }
