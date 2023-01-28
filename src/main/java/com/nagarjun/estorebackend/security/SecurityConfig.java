@@ -27,7 +27,8 @@ public class SecurityConfig {
         http
             .csrf().disable()
             .authorizeHttpRequests()
-            .antMatchers(SecurityConstants.ROLE_PATH).hasRole(SecurityConstants.ROLE_ADMIN)
+            .antMatchers(SecurityConstants.ADMIN_PATH).hasRole(SecurityConstants.ROLE_ADMIN)
+            .antMatchers(SecurityConstants.USER_PATH).hasAnyRole(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
             .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
             .antMatchers(HttpMethod.DELETE, SecurityConstants.USER_CART_PATH).hasAnyRole(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
             .antMatchers(HttpMethod.DELETE).hasRole(SecurityConstants.ROLE_ADMIN)
