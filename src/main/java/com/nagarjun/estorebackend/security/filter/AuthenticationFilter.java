@@ -55,7 +55,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
                 .withSubject(customPrincipal.getName())
                 .withClaim("ROLES", customPrincipal.getRoles())
                 .withClaim("AUTHORITIES", customPrincipal.getRoles())
-                .withClaim("ID", customPrincipal.getId())
+                .withClaim("ID", customPrincipal.getUserId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign((Algorithm.HMAC512(SecurityConstants.SECRET_KEY)));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);                

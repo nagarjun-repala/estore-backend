@@ -33,8 +33,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 
             DecodedJWT jwt = verifyJwt(header);
             Authentication authentication = getAuthentication(jwt);
-            System.out.println(authentication.isAuthenticated());
-            System.out.println(authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
     }
