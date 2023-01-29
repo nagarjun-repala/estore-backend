@@ -1,9 +1,6 @@
 package com.nagarjun.estorebackend.service;
 
 import java.util.List;
-
-import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
-
 import com.nagarjun.estorebackend.dto.OrderDetailsDto;
 import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.OrderProductQuantity;

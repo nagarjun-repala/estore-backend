@@ -6,11 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
 import org.springframework.stereotype.Service;
-
 import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.dto.OrderDetailsDto;
 import com.nagarjun.estorebackend.entity.Address;
@@ -60,12 +57,12 @@ public class OrderServiceImpl implements OrderService{
         order.setUpdatedOn(currentLocalDateTime);
         order.setStatus(Constants.SUCCESS);
         Order savedOrder = orderRepository.save(order);
-        updateOrderProductQuantity(savedOrder, cart);
-        OrderDetailsDto orderDetailsDto = new OrderDetailsDto(savedOrder);
+        List<OrderProductQuantity> updatedOrderProductQuantity = updateOrderProductQuantity(savedOrder, cart);
+        OrderDetailsDto orderDetailsDto = new OrderDetailsDto(savedOrder, updatedOrderProductQuantity);
         return orderDetailsDto;
     }
 
-    private void updateOrderProductQuantity(Order order, Cart cart){
+    private List<OrderProductQuantity> updateOrderProductQuantity(Order order, Cart cart){
         List<OrderProductQuantity> orderProductQuantities = new ArrayList<OrderProductQuantity>();
         List<CartItem> cartItems = cart.getCartItems();
         for (CartItem cartItem : cartItems) {
@@ -77,8 +74,9 @@ public class OrderServiceImpl implements OrderService{
             orderProductQuantity.setPrice(cartItem.getProduct().getPrice());
             orderProductQuantities.add(orderProductQuantity);
         }
-        orderProductQuantityRepository.saveAll(orderProductQuantities);
+        List<OrderProductQuantity> savedOrderProductQuantity = (List<OrderProductQuantity>) orderProductQuantityRepository.saveAll(orderProductQuantities);
         cartService.deleteAllCartItems(cart.getId());
+        return savedOrderProductQuantity;
     }
 
     @Override
