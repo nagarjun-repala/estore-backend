@@ -111,5 +111,10 @@ public class CartServiceImpl implements CartService{
         Optional<Cart> cartEntity = cartRepository.findByUsername(username);
         if(cartEntity.isEmpty()) throw new ResourceNotFoundException(username, Constants.CART);
         return cartEntity.get();
+    }
+
+    @Override
+    public void deleteAllCartItems(Long cartId) {
+        cartItemRepository.deleteAllByCartId(cartId);
     } 
 }
