@@ -21,7 +21,7 @@ import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.AddressService;
 
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/user/address")
 public class AddressController {
 
     @Autowired

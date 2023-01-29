@@ -27,7 +27,7 @@ public class UserDto {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.addresses = user.getAddresses();
-        this.cart = user.getCart();
+        // this.cart = user.getCart();
         this.orders = user.getOrders();
         this.roles = getRoles(user.getRoles());
     }

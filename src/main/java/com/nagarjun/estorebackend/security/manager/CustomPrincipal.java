@@ -13,18 +13,18 @@ import lombok.Setter;
 @Setter
 public class CustomPrincipal implements Principal{
 
-    private Long id;
+    private Long userId;
     private String username;
     private List<String> roles;
 
     public CustomPrincipal(User user) {
-        this.id = user.getId();
+        this.userId = user.getId();
         this.username = user.getUsername();
         this.roles = getRoles(user.getRoles());
     }
 
     public CustomPrincipal(Long userId, String username, List<String> roles) {
-        this.id = userId;
+        this.userId = userId;
         this.username = username;
         this.roles = roles;
     }
