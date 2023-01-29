@@ -2,12 +2,15 @@ package com.nagarjun.estorebackend.web;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.nagarjun.estorebackend.dto.OrderDetailsDto;
 import com.nagarjun.estorebackend.entity.Order;
+import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.OrderService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,23 +18,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/user/order")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
    
 
-    @PostMapping("/cart/{cartId}/address/{addressId}")
-    public ResponseEntity<Order> createOrder(@PathVariable Long cartId, @PathVariable Long addressId) {
+    @PostMapping("/address/{addressId}")
+    public ResponseEntity<OrderDetailsDto> createOrder(@AuthenticationPrincipal CustomPrincipal principal, @PathVariable Long addressId) {
 
-        return new ResponseEntity<>(orderService.createOrder(cartId, addressId), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.createOrder(principal.getUsername(), addressId), HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable Long userId) {
+    @GetMapping("/listOrders")
+    public ResponseEntity<List<Order>> getOrders(@AuthenticationPrincipal CustomPrincipal principal) {
 
-        return new ResponseEntity<>(orderService.getOrders(userId), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrders(principal.getUserId()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{orderId}")
