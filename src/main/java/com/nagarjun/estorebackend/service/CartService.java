@@ -17,5 +17,6 @@ public interface CartService {
     Cart getUserCart(String username);
     Cart getUserCart(Long userId);
     void deleteAllCartItems(Long cartId);
+    void saveCart(Cart cart);
     
 }
