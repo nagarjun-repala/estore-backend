@@ -8,11 +8,8 @@ import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.Review;
 import com.nagarjun.estorebackend.entity.User;
-import com.nagarjun.estorebackend.exception.ProductNotFoundException;
 import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
-import com.nagarjun.estorebackend.repository.ProductRepository;
 import com.nagarjun.estorebackend.repository.ReviewRepository;
-import com.nagarjun.estorebackend.repository.UserRepository;
 
 @Service
 public class ReviewServiceImpl implements ReviewService{
@@ -21,15 +18,13 @@ public class ReviewServiceImpl implements ReviewService{
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ProductService productService;
 
     @Autowired
-    private ProductRepository productRepository;
-
+    private UserService userService;
 
     @Override
     public Review getReview(Long reviewId) {
-
         Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
         if(reviewEntity.isEmpty()) throw new ResourceNotFoundException(reviewId, Constants.REVIEW);
         return reviewEntity.get();
@@ -37,19 +32,16 @@ public class ReviewServiceImpl implements ReviewService{
     
     @Override
     public List<Review> getReviewsByProductId(Long productId) {
-        
-        Optional<Product> productEntity = productRepository.findById(productId);
-        if(productEntity.isEmpty()) throw new ProductNotFoundException(productId);
-        List<Review> reviews = reviewRepository.findByProductId(productId).get();
+        Product product = productService.getProduct(productId);
+        List<Review> reviews = reviewRepository.findByProductId(product.getId()).get();
         if(reviews.isEmpty()) throw new ResourceNotFoundException(productId, Constants.PRODUCT);
         return reviews;
     }    
 
     @Override
     public Review createReview(Review review, Long userId, Long productId) {
-        // TODO Auto-generated method stub
-        User user = userRepository.findById(userId).get();
-        Product product = productRepository.findById(productId).get();
+        User user = userService.getUser(userId);
+        Product product = productService.getProduct(productId);
         review.setProduct(product);
         review.setUser(user);
         return reviewRepository.save(review);
@@ -57,7 +49,6 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Review updateReview(Long reviewId, Review review) {
-
         Optional<Review> reviewEntity = reviewRepository.findById(reviewId);
         if(reviewEntity.isEmpty()) throw new ResourceNotFoundException(reviewId, Constants.REVIEW);
         Review updateReview  = reviewEntity.get();
@@ -74,14 +65,14 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<Review> getReviews() {
-
         return (List<Review>)reviewRepository.findAll();
     }
 
     @Override
     public List<Review> getReviewsByUsername(String username) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Review> reviews = reviewRepository.findByUserUsername(username);
+        if(reviews.isEmpty()) throw new ResourceNotFoundException(Constants.REVIEW);
+        return reviews;
     }
 
 }

@@ -3,12 +3,14 @@ package com.nagarjun.estorebackend.web;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.entity.Review;
+import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.ReviewService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/user/review")
 public class ReviewController {
 
     @Autowired
@@ -35,10 +37,10 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.getReviewsByProductId(productId), HttpStatus.OK);
     }    
 
-    @PostMapping("/user/{userId}/product/{productId}")
-    public ResponseEntity<HttpStatus> createReview(@PathVariable Long productId, @PathVariable Long userId, @Valid @RequestBody Review review) {
+    @PostMapping("/product/{productId}")
+    public ResponseEntity<HttpStatus> createReview(@AuthenticationPrincipal CustomPrincipal principal, @PathVariable Long productId, @Valid @RequestBody Review review) {
 
-        reviewService.createReview(review, userId, productId);
+        reviewService.createReview(review, principal.getUserId(), productId);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
