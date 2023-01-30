@@ -20,7 +20,7 @@ import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.CartService;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/user/cart")
 public class CartController {
 
     @Autowired
