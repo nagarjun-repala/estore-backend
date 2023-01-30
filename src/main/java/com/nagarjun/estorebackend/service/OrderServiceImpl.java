@@ -17,6 +17,7 @@ import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.OrderProductQuantity;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.ResourceEmptyException;
 import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.OrderProductQuantityRepository;
 import com.nagarjun.estorebackend.repository.OrderRepository;
@@ -40,6 +41,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrderDetailsDto createOrder(String username, Long addressId) {
         Cart cart = cartService.getUserCart(username);
+        if(cart.getCartItems().isEmpty()) throw new ResourceEmptyException(Constants.CART);
         Address address = addressService.getAddress(addressId);
         User user = cart.getUser();
         List<CartItem> cartItems = cart.getCartItems();
@@ -59,6 +61,9 @@ public class OrderServiceImpl implements OrderService{
         Order savedOrder = orderRepository.save(order);
         List<OrderProductQuantity> updatedOrderProductQuantity = updateOrderProductQuantity(savedOrder, cart);
         OrderDetailsDto orderDetailsDto = new OrderDetailsDto(savedOrder, updatedOrderProductQuantity);
+        cart.setTotal(0);
+        cart.setCartItems(new ArrayList<CartItem>());
+        cartService.saveCart(cart);
         return orderDetailsDto;
     }
 
