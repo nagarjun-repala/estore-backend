@@ -14,5 +14,5 @@ public class Constants {
     public static final String ID_FORMAT = "Id : '";
     public static final String SUCCESS = "SUCCESS";
     public static final String FAILED = "FAILED";
-    public static final String EMPTY = "EMPTY";
+    public static final String EMPTY = " EMPTY";
 }
