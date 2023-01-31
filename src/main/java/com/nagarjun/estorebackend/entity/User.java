@@ -67,7 +67,7 @@ public class User implements Serializable{
     private List<Order> orders;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "users", fetch= FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "users", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Role> roles;
 
     @JsonIgnore

@@ -6,4 +6,8 @@ public class RoleNotFoundException extends RuntimeException{
         super("Role id: '"  + id + "' does not exist in our records");
     }
 
+    public RoleNotFoundException(String roleName) {
+        super("Role name: '"  + roleName + "' does not exist in our records");
+    }
+
 }

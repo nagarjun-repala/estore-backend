@@ -4,11 +4,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.Set;
 import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
+import com.nagarjun.estorebackend.exception.ResourceExistException;
+import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.exception.RoleNotFoundException;
 import com.nagarjun.estorebackend.repository.RoleRepository;
-import com.nagarjun.estorebackend.repository.UserRepository;
 
 @Service
 public class RoleServiceImpl implements RoleService{
@@ -17,7 +19,7 @@ public class RoleServiceImpl implements RoleService{
     private RoleRepository roleRepository;
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@Override
 	public Role getRoleById(Long roleId) {
@@ -33,9 +35,9 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public Role updateRole(Long roleId, Role role) {
-        Optional<Role> orderEntity = roleRepository.findById(roleId);
-        if(orderEntity.isEmpty()) throw new RoleNotFoundException(roleId);
-        Role updateRole = orderEntity.get();
+        Optional<Role> roleEntity = roleRepository.findById(roleId);
+        if(roleEntity.isEmpty()) throw new RoleNotFoundException(roleId);
+        Role updateRole = roleEntity.get();
         updateRole.setName(role.getName());
         return updateRole;
 		
@@ -48,33 +50,39 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public List<Role> getRoles() {
-		// TODO Auto-generated method stub
 		return (List<Role>) roleRepository.findAll();
 	}
 
 	@Override
 	public Role getRoleByName(String roleName) {
-		// TODO Auto-generated method stub
-		return roleRepository.findByName(roleName).get();
+        Optional<Role> roleEntity = roleRepository.findByName(roleName);
+        if(roleEntity.isEmpty()) throw new RoleNotFoundException(roleName);
+		return roleEntity.get();
 	}
 
 	@Override
-	public Role assignRole(Long userId, Role roleName) {
-        // TODO Auto-generated method stub
-		User user = userRepository.findById(userId).get();
-		Role role = roleRepository.findByName(roleName.getName()).get();
+	public void assignRole(Long userId, String roleName) {
+		User user = userService.getUser(userId);
+		Set<Role> userRoles = user.getRoles();
+		for (Role role : userRoles) {
+			if(roleName.equals(role.getName())) throw new ResourceExistException("Role: " + roleName + " already assigned");
+		}
+		Role role = getRoleByName(roleName);
 		role.getUsers().add(user);
 		roleRepository.save(role);
-		return role;
 	}
 
 	@Override
 	public void unassignRole(Long userId, String roleName) {
-        // TODO Auto-generated method stub
-		User user = userRepository.findById(userId).get();
-		Role role = roleRepository.findByName(roleName).get();
-		role.getUsers().remove(user);
-		roleRepository.save(role);
+		User user = userService.getUser(userId);
+		Set<Role> userRoles = user.getRoles();
+		for (Role role : userRoles) {
+			if(roleName.equals(role.getName())){
+				role.getUsers().remove(user);
+				roleRepository.save(role);
+				return;
+			}
+		}
+		throw new ResourceNotFoundException(roleName);
 	}
-
 }

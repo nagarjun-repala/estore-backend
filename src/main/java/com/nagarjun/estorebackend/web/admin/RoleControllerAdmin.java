@@ -56,9 +56,10 @@ public class RoleControllerAdmin {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/user/{userId}")
-    public ResponseEntity<Role> assignRole(@PathVariable Long userId, @Valid @RequestBody Role role) {
-        return new ResponseEntity<>(roleService.assignRole(userId, role), HttpStatus.OK);
+    @PostMapping("/{roleName}/user/{userId}")
+    public ResponseEntity<HttpStatus> assignRole(@PathVariable Long userId, @PathVariable String roleName) {
+        roleService.assignRole(userId, roleName);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     @DeleteMapping("/{roleName}/user/{userId}")
