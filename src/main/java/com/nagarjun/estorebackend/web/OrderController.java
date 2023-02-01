@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@Validated
 @RestController
 @RequestMapping("/user/order")
 public class OrderController {
@@ -48,6 +50,12 @@ public class OrderController {
     public ResponseEntity<Order> updateOrder(@PathVariable Long orderId, @PathVariable Long addressId) {
 
         return new ResponseEntity<>(orderService.updateOrder(orderId, addressId), HttpStatus.OK);
+    }
+    
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long orderId, @AuthenticationPrincipal CustomPrincipal principal) {
+        return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
     }    
 
 }

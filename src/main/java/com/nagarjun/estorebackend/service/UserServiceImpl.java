@@ -66,6 +66,29 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    // private List<Authorities> getAuthoritiesForUser(String roleName){
+    //     //TODO:
+    //     List<Authorities> authorities = new ArrayList<>();
+    //     for (String resource : SecurityConstants.resources) {
+    //         Authorities authority = new Authorities();
+    //         switch(resource) {
+    //             case "ADDRESS":
+    //                 authority.setResource("ADDRESS");
+    //                 authority.setUser(null);
+    //                 authority.setResource("ADDRESS");
+    //                 authority.setAccess("RWDU");
+    //         }
+
+    //         authority.setResource(resource);
+    //         authority.setAccess(SecurityConstants.ACCESS_READ);
+    //         authority.setUser(null); 
+            
+    //     }
+
+
+
+    // }
+
     @Override
     public List<User> getAllUsers() {
         List<User> users = (List<User>) userRepository.findAll();

@@ -18,4 +18,6 @@ public class SecurityConstants {
     public static final String ROLE_PATH = "/role/*";
     public static final String ADMIN_PATH = "/admin/**";
     public static final String USER_PATH = "/user/**";
+    public static final String[] resources = new String[]{"ADDRESS", "ORDER", "PRODUCT", "CART", "ROLE", "REVIEW"};
+    public static final String[] accesses = new String[]{"READ", "WRITE", "DELETE", "UPDATE"};
 }

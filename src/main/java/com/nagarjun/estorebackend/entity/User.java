@@ -70,6 +70,10 @@ public class User implements Serializable{
     @ManyToMany(mappedBy = "users", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Role> roles;
 
+    // @JsonIgnore
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    // private List<Authorities> authorities;  
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addresses;    
