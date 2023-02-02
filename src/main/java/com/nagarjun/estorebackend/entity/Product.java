@@ -56,7 +56,7 @@ public class Product {
     private List<CartItem> cartItems;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "products", fetch= FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "products", fetch= FetchType.EAGER, cascade = {CascadeType.REFRESH})
     private Set<Order> orders;
 
     @JsonIgnore

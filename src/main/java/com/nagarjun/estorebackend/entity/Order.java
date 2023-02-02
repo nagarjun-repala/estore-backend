@@ -54,7 +54,7 @@ public class Order {
     @Column
     private Integer total;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
     @JoinTable(
         name = "order_items",
         joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
