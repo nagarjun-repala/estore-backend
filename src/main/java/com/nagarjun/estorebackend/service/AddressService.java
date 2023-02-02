@@ -1,7 +1,6 @@
 package com.nagarjun.estorebackend.service;
 
 import java.util.List;
-
 import com.nagarjun.estorebackend.entity.Address;
 
 public interface AddressService {

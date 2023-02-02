@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.dto.OrderDetailsDto;
@@ -37,6 +38,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private AddressService addressService;
+
+    // @Autowired
+    // private AccessService accessService;
 
     @Override
     public OrderDetailsDto createOrder(String username, Long addressId) {
@@ -92,6 +96,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER') AND @accessService.hasAccessToOrder(#orderId, principal.userId)")
     public void deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
     }
