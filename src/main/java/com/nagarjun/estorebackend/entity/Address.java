@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -56,7 +57,11 @@ public class Address {
     private String phoneNumber;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumns({
+        @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        @JoinColumn(name = "username", referencedColumnName = "username")
+    })
+
     @JsonIgnore
     private User user;
 
