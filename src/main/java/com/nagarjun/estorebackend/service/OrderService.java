@@ -19,6 +19,7 @@ public interface OrderService {
     @PostAuthorize("(hasRole('ADMIN')) OR (returnObject.user.username == principal.username)")
     Order getOrder(Long orderId);
     List<OrderProductQuantity> getOrderProductQuantities(Long orderId);
+    void cancelOrder(Long orderId);
 
     
 }

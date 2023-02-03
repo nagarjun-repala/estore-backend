@@ -13,6 +13,7 @@ public class Constants {
     public static final String NOT_FOUND = " does not exist in our records";
     public static final String ID_FORMAT = "Id : '";
     public static final String SUCCESS = "SUCCESS";
+    public static final String CANCEL = "CANCEL";
     public static final String FAILED = "FAILED";
     public static final String EMPTY = " EMPTY";
 }
