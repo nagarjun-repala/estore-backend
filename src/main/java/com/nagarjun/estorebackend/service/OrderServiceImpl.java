@@ -131,4 +131,12 @@ public class OrderServiceImpl implements OrderService{
         return orderProductQuantities;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER') AND @accessService.hasAccessToOrder(#orderId, principal.userId)")
+    @Override
+    public void cancelOrder(Long orderId) {
+        Order order = getOrder(orderId);
+        order.setStatus(Constants.CANCEL);
+        orderRepository.save(order);
+    }
+
 }

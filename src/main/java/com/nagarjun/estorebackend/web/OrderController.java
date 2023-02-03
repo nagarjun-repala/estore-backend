@@ -56,6 +56,14 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<Order> getOrder(@PathVariable Long orderId, @AuthenticationPrincipal CustomPrincipal principal) {
         return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/{orderId}/cancel")
+    public ResponseEntity<Order> cancelOrder(@PathVariable Long orderId) {
+        
+        orderService.cancelOrder(orderId);
+        return new ResponseEntity<>(HttpStatus.OK);     
     }    
+        
 
 }
