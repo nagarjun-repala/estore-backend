@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.Order;
-
-
+import com.nagarjun.estorebackend.entity.Review;
 
 @Service("accessService")
 public class AccessService {
@@ -15,6 +14,9 @@ public class AccessService {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     public boolean hasAccessToOrder(Long orderId, Long userId) {
 
@@ -26,8 +28,15 @@ public class AccessService {
 
         Address address = addressService.getAddress(adressId);
         return address.getUser().getId() == userId;
-    } 
-
-
+    }
     
+    public boolean hasAccessToReview(Long reviewId, Long userId) {
+
+        try {
+            Review review = reviewService.getReview(reviewId);
+            return review.getUser().getId() == userId;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
