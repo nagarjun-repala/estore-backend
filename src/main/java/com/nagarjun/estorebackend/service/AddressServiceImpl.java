@@ -34,7 +34,7 @@ public class AddressServiceImpl implements AddressService{
         return addressEntity.get();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER') AND @accessService.hasAccessToAddress(#addressId, principal.userId)")
+    @PreAuthorize("hasRole('ADMIN') OR (hasRole('USER') AND @accessService.hasAccessToAddress(#addressId, principal.userId))")
     @Override
     public void deleteAddress(Long addressId) {
         addressRepository.deleteById(addressId);
