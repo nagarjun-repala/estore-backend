@@ -36,7 +36,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler({ResourceExistException.class})
     public ResponseEntity<Object> handleResourceFoundException(RuntimeException exception) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(exception.getMessage()));
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }    
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<Object> handleDataAccessException(EmptyResultDataAccessException exception) {

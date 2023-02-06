@@ -20,14 +20,22 @@ public class AccessService {
 
     public boolean hasAccessToOrder(Long orderId, Long userId) {
 
-        Order order = orderService.getOrder(orderId);
-        return order.getUser().getId() == userId;
+        try {
+            Order order = orderService.getOrder(orderId);
+            return order.getUser().getId() == userId;
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     public boolean hasAccessToAddress(Long adressId, Long userId) {
 
-        Address address = addressService.getAddress(adressId);
-        return address.getUser().getId() == userId;
+        try {
+            Address address = addressService.getAddress(adressId);
+            return address.getUser().getId() == userId;
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     public boolean hasAccessToReview(Long reviewId, Long userId) {
