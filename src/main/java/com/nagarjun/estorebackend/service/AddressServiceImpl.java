@@ -2,11 +2,8 @@ package com.nagarjun.estorebackend.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
-
 import com.nagarjun.estorebackend.Constants;
 import com.nagarjun.estorebackend.entity.Address;
 import com.nagarjun.estorebackend.entity.User;
@@ -25,8 +22,6 @@ public class AddressServiceImpl implements AddressService{
     @Autowired
     private UserRepository userRepository;
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @PostAuthorize("(returnObject.user.username == principal.username)")
     @Override
     public Address getAddress(Long addressId) {
         Optional<Address> addressEntity = addressRepository.findById(addressId);
@@ -34,7 +29,6 @@ public class AddressServiceImpl implements AddressService{
         return addressEntity.get();
     }
 
-    @PreAuthorize("hasRole('ADMIN') OR (hasRole('USER') AND @accessService.hasAccessToAddress(#addressId, principal.userId))")
     @Override
     public void deleteAddress(Long addressId) {
         addressRepository.deleteById(addressId);

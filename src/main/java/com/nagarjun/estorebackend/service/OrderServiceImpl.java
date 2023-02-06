@@ -19,6 +19,7 @@ import com.nagarjun.estorebackend.entity.OrderProductQuantity;
 import com.nagarjun.estorebackend.entity.Product;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.exception.ResourceEmptyException;
+import com.nagarjun.estorebackend.exception.ResourceExistException;
 import com.nagarjun.estorebackend.exception.ResourceNotFoundException;
 import com.nagarjun.estorebackend.repository.OrderProductQuantityRepository;
 import com.nagarjun.estorebackend.repository.OrderRepository;
@@ -38,9 +39,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private AddressService addressService;
-
-    // @Autowired
-    // private AccessService accessService;
 
     @Override
     public OrderDetailsDto createOrder(String username, Long addressId) {
@@ -135,6 +133,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public void cancelOrder(Long orderId) {
         Order order = getOrder(orderId);
+        if (order.getStatus().equals(Constants.CANCEL)) throw new ResourceExistException("Order already cancelled");
         order.setStatus(Constants.CANCEL);
         orderRepository.save(order);
     }

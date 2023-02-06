@@ -6,7 +6,7 @@ import com.nagarjun.estorebackend.entity.Product;
 
 public interface ProductService {
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     Product getProduct(Long productId);
 
     @PreAuthorize("hasRole('ADMIN')")
