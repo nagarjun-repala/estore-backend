@@ -9,10 +9,11 @@ import com.nagarjun.estorebackend.entity.Order;
 import com.nagarjun.estorebackend.entity.Role;
 import com.nagarjun.estorebackend.entity.User;
 import lombok.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class UserDto {
+public class UserDto implements Serializable{
 
     private Long id;
     private String username;

@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderDetailsDto {
+public class OrderDetailsDto implements Serializable {
 
     private Long orderId;
     private LocalDateTime createdOn;

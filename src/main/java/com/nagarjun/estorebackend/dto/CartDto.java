@@ -1,5 +1,6 @@
 package com.nagarjun.estorebackend.dto;
 
+import java.io.Serializable;
 import java.util.List;
 import com.nagarjun.estorebackend.entity.Cart;
 import com.nagarjun.estorebackend.entity.CartItem;
@@ -7,7 +8,7 @@ import lombok.*;
 
 @Getter
 @Setter
-public class CartDto {
+public class CartDto implements Serializable {
 
     private Long id;
     private List<CartItem> items;
