@@ -53,7 +53,10 @@ public class EstoreBackendApplication implements CommandLineRunner{
 					registry
 						.addMapping("/**")
 						.allowedOrigins("*")
-						.allowedMethods("*");
+						.allowedMethods("*")
+						// .allowCredentials(true)
+						.allowedHeaders("*")
+						.exposedHeaders("Authorization");
 				}
 			};
 		}
