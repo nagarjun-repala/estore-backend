@@ -22,6 +22,8 @@ public class UserDto implements Serializable{
     private List<Address> addresses;
     private Cart cart;
     private List<String> roles;
+    private String firstName;
+    private String lastName;
 
     public UserDto(User user){
         this.id = user.getId();
@@ -31,6 +33,8 @@ public class UserDto implements Serializable{
         // this.cart = user.getCart();
         this.orders = user.getOrders();
         this.roles = getRoles(user.getRoles());
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
     }
     private List<String> getRoles(Set<Role> roles){
         List<String> userRoles = new ArrayList<>();
