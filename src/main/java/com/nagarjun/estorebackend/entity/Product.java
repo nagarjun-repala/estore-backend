@@ -46,7 +46,12 @@ public class Product {
     @NonNull
     @Column(nullable = false)
     private Integer price;
-    
+
+    @NotBlank(message = "imageURL cannot be blank")
+    @NonNull
+    @Column(nullable = false)
+    private String imageUrl;
+
     @JsonIgnore   
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> review;

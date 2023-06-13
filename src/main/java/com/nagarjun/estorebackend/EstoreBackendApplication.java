@@ -71,9 +71,9 @@ public class EstoreBackendApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 
 		Product[] products = new Product[] {
-			new Product("Table", "It is a table", 1000),
-			new Product("Chair", "It is a chair", 500),
-			new Product("Iphone-14", "It is a phone", 50000),
+			new Product("Table", "It is a table", 1000, "https://www.ikea.com/in/en/images/products/ekedalen-extendable-table-brown__0736962_pe740826_s5.jpg"),
+			new Product("Chair", "It is a chair", 500, "https://cdn.shopify.com/s/files/1/0044/1208/0217/products/CHR2226SRB_BST_600x.jpg?v=1660978123"),
+			new Product("Iphone-14", "It is a phone", 50000, "https://m.media-amazon.com/images/I/61cwywLZR-L._AC_UF1000,1000_QL80_.jpg"),
 
 		};
 

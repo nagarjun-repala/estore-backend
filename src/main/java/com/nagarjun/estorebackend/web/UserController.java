@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.nagarjun.estorebackend.dto.UserDto;
+import com.nagarjun.estorebackend.dto.VerifyUser;
 import com.nagarjun.estorebackend.entity.User;
 import com.nagarjun.estorebackend.security.manager.CustomPrincipal;
 import com.nagarjun.estorebackend.service.UserService;
@@ -35,6 +36,11 @@ public class UserController {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @GetMapping("/verifyUser")
+    public ResponseEntity<VerifyUser> verifyUser() {
+        return new ResponseEntity<>(new VerifyUser("Valid user"), null, HttpStatus.OK);
+    }    
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
