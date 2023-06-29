@@ -40,7 +40,6 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
             .antMatchers(HttpMethod.DELETE, SecurityConstants.USER_CART_PATH).hasAnyRole(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
             .antMatchers(HttpMethod.DELETE).hasRole(SecurityConstants.ROLE_ADMIN)
-            .antMatchers(HttpMethod.GET).hasAnyRole(SecurityConstants.ROLE_ADMIN, SecurityConstants.ROLE_USER)
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)

@@ -18,7 +18,7 @@ public interface ProductService {
     @PreAuthorize("hasRole('ADMIN')")
     Product updateProduct(Long productId, Product product);
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     List<Product> getProducts();
     
 }
